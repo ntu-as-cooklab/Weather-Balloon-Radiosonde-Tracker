@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Balloon Tracker</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/mystyle.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootstrap-table.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/jquery.js"></script>
+    <script src="js/socket.io.js"></script>
+    <script src="js/jquery.form.js"></script> 
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-filestyle.min.js"></script>
+    <script src="js/bootstrap-table.js"></script>
+    <script src="js/d3.js"></script>  
+    <script src="js/api.js"></script>
+</head>
+
+<body>
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">NTU-AS COOK Lab.</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html"><span class="glyphicon glyphicon-home"
+                         aria-hidden="true"></span> Home</a></li>
+                    <li class="active dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                         role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-paint-brush" aria-hidden="true"></span>Plot <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="index.html">Path</a></li>
+                            <li><a href="withTime.html">Var With Time</a></li>
+                            <li><a href="#">Var with Height</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="about.html">
+                        <span class="glyphicon glyphicon-info-sign"
+                         aria-hidden="true"></span>About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>      
+
+    <header class = "jumbotron">
+        <div class = "container">
+            <div class="row row-header">
+                <div class = "col-xs-12 col-sm-9">
+                    <p style="padding:20px;"></p>
+                    <h1>Weather Balloon/<br>Radiosonde Tracker</h1>
+                    <p style="padding:30px;"></p>
+                    <p>Tracking balloon, graphing the path, and analyzing the data of Vaisala RS radiosonde</p>
+                </div>
+                <div class="col-xs-12 col-sm-1"></div>
+                <div class="col-xs-12 col-sm-2">
+                    <img src="img/balloon.png" class="img-responsive">
+                </div>
+            </div>
+        </div>
+    </header>
+    <style>
+        @import url(/Apps/Sandcastle/templates/bucket.css);
+    </style>
+    <div class = "container">
+        <div class = "row row-input">
+            <div class = "col-xs-12 col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-body"  align=center >
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                        <h2>File Upload</h2>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"></div>
+                        </div>
+                        <button class="btn btn-lg upload-btn" type="button">Upload File</button>   
+                        <input id="upload-input" type="file" accept="text/plain" name="uploads[]" multiple="multiple"></br>
+                        <script src="js/upload.js"></script>
+                    </div>
+                </div>
+            </div>
+            <div class = "col-xs-12 col-sm-6">
+                <div class="row">
+                    
+                    <table id="filetable"
+                           data-toggle="table"
+                           data-height="260"
+                           data-click-to-select="true"
+                           data-url="/data/file.json">
+                        <thead>
+                            <tr>
+                                <th data-field="state" data-checkbox="true"></th>
+                                <th data-field="id">ID</th>
+                                <th data-field="name">Name</th>
+                                <th data-field="color">Color</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <script>
+                        listRefresh();
+                    </script>
+                    <div>
+                        <button id="delbnt" class="btn btn-danger">Delete Selections</button>
+                        <script>
+                            $(function () {
+                                $('#delbnt').click(function () {
+                                    var delData = $('#filetable').bootstrapTable('getSelections');
+                                    uploadDelItem(delData);
+                                });
+                            });
+                        </script>
+                        <button id="refbtn" class="btn btn-primary">Refresh</button>
+                        <script>
+                            listRefresh();                
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div id='ctrl-btn' class = "col-xs-12 col-sm-2" align="center">
+                <div id='calbnt' class='row'>
+                    <button type="button" onclick="caldata()" class = "btn btn-info btn-block btn-lg">1. Calculate</button>
+                    <div id='showStatus'></div>
+                </div>      
+                <div id='showbnt' class='row'>
+                    <button type="button" class = "btn btn-info btn-block btn-lg" >2. Show</button>
+                </div>
+                <div id="connected" style="padding:10px;"></div>
+                <script>
+                    connect();
+                </script>
+            </div>
+        </div>
+<!--    Draw Var v.s Height    -->
+        <div class="row row-content">
+            <div class = "col-xs-12">
+                <div class = "row">
+                    <h2 align=center>Height v.s. Pressure</h2>
+                </div>
+                <div align='center'>
+                    <div id = "p_height"></div>
+                    <script src="d3/p_height.js"></script>
+                    <script>
+                        show_p_height();
+                        $('#showbnt').on('click', function (){
+                            show_p_height();
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class = "col-xs-12">
+                <div class = "row">
+                    <h2 align=center>Height v.s. Temperature</h2>
+                </div>
+                <div align='center'>
+                    <div id = "temp_height"></div>
+                    <script src="d3/temp_height.js"></script>
+                    <script>
+                        show_temp_height();
+                        $('#showbnt').on('click', function (){
+                            show_temp_height();
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class = "col-xs-12">
+                <div class = "row">
+                    <h2 align=center>Height v.s. Relative Humidity</h2>
+                </div>
+                <div align='center'>
+                    <div id = "rh_height"></div>
+                    <script src="d3/rh_height.js"></script>
+                    <script>
+                        show_rh_height();
+                        $('#showbnt').on('click', function (){
+                            show_rh_height();
+                        });
+                    </script>
+                </div>
+            </div> 
+        </div>
+<!--   end of Draw Var v.s Time     -->
+    </div>
+    <footer class = "row-footer">
+        <div class = "container">
+            <div>             
+                <div class="col-xs-12">
+                    <p style="padding:10px;"></p>
+                    <p align=center>Copyright 2016 © by Liu, An-Chi @ NTU-AS COOK Lab.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

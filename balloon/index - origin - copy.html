@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Balloon Tracker</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/mystyle.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootstrap-table.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.form.js"></script> 
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-filestyle.min.js"></script>
+    <script src="js/bootstrap-table.js"></script>
+    <script src="js/d3.js"></script>  
+    <script src="js/api.js"></script>
+    <script src="Apps/Sandcastle/Sandcastle-header.js"></script>
+    <script src="ThirdParty/requirejs-2.1.20/require.js"></script>
+    <script>
+        require.config({
+            baseUrl : '/Source',
+            waitSeconds : 60
+        });
+        requirejs(["leaflet"]);
+    </script>
+    <link href='css/leaflet.css' rel='stylesheet' />
+</head>
+
+<body>
+    
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">NTU COOK</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li  class="active"><a href="index.html"><span class="glyphicon glyphicon-home"
+                         aria-hidden="true"></span> Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                         role="button" aria-haspopup="true" aria-expanded="false"> 
+                         Plot <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#path">Path</a></li>
+                            <li><a href="#withTime">Var With Time</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">item</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="aboutus.html">
+                        <span class="glyphicon glyphicon-info-sign"
+                         aria-hidden="true"></span>About</a></li>
+                </ul>
+                <form class="navbar-form navbar-right" role="submit">
+                    <div class = "form-group">
+                        <input type= "text" class = "form-control" id = "search" placeholder = "Search">
+                    </div>
+                    <buttom type = "submit" class = "btn btn-info" >Submit</buttom>
+                </form>
+            </div>
+        </div>
+    </nav>      
+
+    <header class = "jumbotron">
+        <div class = "container">
+            <div class="row row-header">
+                <div class = "col-xs-12 col-sm-8">
+                    <p style="padding:20px;"></p>
+                    <h1>Balloon Tracker</h1>
+                    <p style="padding:30px;"></p>
+                    <p>Tracking balloon, graphing the path, and analyzing the data</p>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <img src="img/balloon.png" class="img-responsive">
+                </div>
+            </div>
+        </div>
+    </header>
+    <style>
+        @import url(/Apps/Sandcastle/templates/bucket.css);
+    </style>
+    <div class = "container">
+        <div class = "row row-input">
+            <div class = "col-xs-12 col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-body"  align=center >
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                        <h2>File Upload</h2>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"></div>
+                        </div>
+                        <button class="btn btn-lg upload-btn" type="button">Upload File</button>   
+                        <input id="upload-input" type="file" accept="text/plain" name="uploads[]" multiple="multiple"></br>
+                        <script src="js/upload.js"></script>
+                    </div>
+                </div>
+            </div>
+            <div class = "col-xs-12 col-sm-6">
+                <div class="row">
+                    
+                    <table id="filetable"
+                           data-toggle="table"
+                           data-height="260"
+                           data-click-to-select="true"
+                           data-url="/data/file.json">
+                        <thead>
+                            <tr>
+                                <th data-field="state" data-checkbox="true"></th>
+                                <th data-field="id">ID</th>
+                                <th data-field="name">Name</th>
+                                <th data-field="color">Color</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <script>
+                        listRefresh();
+                    </script>
+                    <div>
+                        <button id="delbnt" class="btn btn-danger">Delete Selections</button>
+                        <script>
+                            $(function () {
+                                $('#delbnt').click(function () {
+                                    var delData = $('#filetable').bootstrapTable('getSelections');
+                                    uploadDelItem(delData);
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div id='ctrl-btn' class = "col-xs-12 col-sm-2" align="center">
+                <div id='calbnt' class='row'>
+                    <button type="button" onclick="caldata()" class = "btn btn-info btn-block btn-lg">Calculate</button>
+                    <div id='showStatus'></div>
+                </div>
+                    
+                <div id='showbnt' class='row'>
+                    <button type="button" class = "btn btn-info btn-block btn-lg" >Show</button>
+                    <script>
+                    </script>
+                </div>    
+            </div>
+        </div>
+        <!-- Cesium -->
+        <div class="row row-content">
+            <div id = "cesium" class = "col-xs-12 col-lg-7">
+                <div class = "row" align="center">
+                    <h2>3D Path</h2>
+                </div>           
+                <div id="cesiumContainer" class = "col-xs-12"></div>
+                <div id="loadingOverlay" class = "col-xs-12"><h3>Loading...</h3></div>
+                <script id="cesium_sandcastle_script">
+                    $(document).ready(function(){
+                        window.addEventListener("load", function(){
+                            $('#loadingOverlay').hide(5);
+                        }, false);                                                
+                           
+                        var twice = false;
+                        
+                        function startup(Cesium) {
+                            'use strict';
+                            var czml = [];
+                            var viewer = new Cesium.Viewer('cesiumContainer', {
+                                imageryProvider : new Cesium.ArcGisMapServerImageryProvider({
+                                url : 'http://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer'
+                                }),
+                                baseLayerPicker : false
+                            });
+                            var terrainProvider = new Cesium.CesiumTerrainProvider({
+                                url : '//assets.agi.com/stk-terrain/world'
+                            });
+                            viewer.terrainProvider = terrainProvider;
+                            $.ajax({
+                                url: '/data/3dpath.txt',
+                                type: 'GET',
+                                success: function(data){
+                                    czml = eval("("+data+")"); 
+                                },
+                                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                                    console.log("Status: " + textStatus + " 3Dpath File GET Error: " + errorThrown); 
+                                }
+                            }).done(function(){            
+                                var dataSource = Cesium.CzmlDataSource.load(czml);
+                                if(twice){
+                                    viewer.dataSources.removeAll();
+                                }
+                                viewer.dataSources.add(dataSource);
+                                viewer.zoomTo(dataSource);
+                                Sandcastle.finishedLoading();
+                                twice = true;
+                            });                           
+                        }
+                        if (typeof Cesium !== "undefined") {
+                            startup(Cesium);
+                        } else if (typeof require === "function") {
+                            require(["Cesium"], startup);
+                        }
+                        $('#showbnt').on('click', function (){
+                            $("#cesiumContainer").empty();
+                            require(["Cesium"], startup);
+                        });
+                    })
+                </script>
+            </div>
+            <!-- End of Cesium -->
+            <!-- Begin of Mapbox -->
+            <div class = "col-xs-12 col-lg-5">
+                <div class = "row">
+                    <h2 align=center>2D Path</h2>
+                </div>
+                <div align=center>
+                    <div id = "map"></div>
+                    <script>                 
+                        var map = L.map('map').setView([23.5, 120.5], 5);
+
+                        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+                                 maxZoom: 18,
+                                 attribution: '',
+                                 id: 'mapbox.streets'
+                        }).addTo(map);
+                            
+                        $.ajax({
+                                url: '/data/2dpath.js',
+                                type: 'GET',
+                                success: function(data){
+                                    eval(data);    
+                                },
+                                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                                    console.log("Status: " + textStatus + " 3Dpath File GET Error: " + errorThrown); 
+                                }
+                        });
+
+                        $('#showbnt').on('click', function (){
+                            function clearMap() {
+                                for(i in map._layers) {
+                                    if(map._layers[i]._path != undefined) {
+                                        try {
+                                            map.removeLayer(map._layers[i]);
+                                        }
+                                        catch(e) {
+                                            console.log("problem with " + e + map._layers[i]);
+                                        }
+                                    }
+                                }
+                            };
+                            
+                            clearMap();
+                            
+                            $.ajax({
+                                url: '/data/2dpath.js',
+                                type: 'GET',
+                                success: function(data){
+                                    eval(data); 
+                                    console.log('add');
+                                },
+                                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                                    console.log("Status: " + textStatus + " 3Dpath File GET Error: " + errorThrown); 
+                                }
+                            })
+                        });
+                        
+                    </script>
+                </div>
+            </div>
+            <!-- End of Mapbox -->
+        </div>
+<!--    Draw Var With Time    -->
+        <div class="row row-content">
+            <div class = "col-xs-12">
+                <div class = "row">
+                    <h2 align=center>Height with Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "height_time"></div>
+                    <script src="d3/height_time.js"></script>
+                    <script>
+                        show_height_time();
+                        $('#showbnt').on('click', function (){
+                            show_height_time();
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class = "col-xs-12">
+                <div class = "row">
+                    <h2 align=center>AscRate with Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "ascRate_time"></div>
+                    <script src="d3/ascRate_time.js"></script>
+                    <script>
+                        show_ascRate_time();
+                        $('#showbnt').on('click', function (){
+                            show_ascRate_time();
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class = "col-xs-12">
+                <div class = "row">
+                    <h2 align=center>AccRate with Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "accRate_time"></div>
+                    <script src="d3/accRate_time.js"></script>
+                    <script>
+                        show_accRate_time();
+                        $('#showbnt').on('click', function (){
+                            show_accRate_time();
+                        });
+                    </script>
+                </div>
+            </div> 
+        </div>
+<!--   end of Draw Var With Time     -->
+    </div>
+    <footer class = "row-footer">
+        <div class = "container">
+            <div>             
+                <div class="col-xs-6 col-sm-3">
+                    <h5>Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Menu</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-6 col-sm-5">
+                    <h5>Our Address</h5>
+                    <address>
+		              121, Clear Water Bay Road<br>
+		              Clear Water Bay, Kowloon<br>
+		              HONG KONG<br>
+		              <i class="fa fa-phone"></i>: +852 1234 5678<br>
+		              <i class="fa fa-fax"></i>: +852 8765 4321<br>
+		              <i class="fa fa-envelope"></i>: 
+                      <a href="mailto:confusion@food.net">confusion@food.net</a>
+		           </address>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="nav navbar-nav" style="padding: 40px 10px;">
+                        <a class="btn btn-social-icon btn-google-plus" href="http://google.com/+"><i class="fa fa-google-plus"></i></a>
+                        <a class="btn btn-social-icon btn-facebook" href="http://www.facebook.com/profile.php?id="><i class="fa fa-facebook"></i></a>
+                        <a class="btn btn-social-icon btn-linkedin" href="http://www.linkedin.com/in/"><i class="fa fa-linkedin"></i></a>
+                        <a class="btn btn-social-icon btn-twitter" href="http://twitter.com/"><i class="fa fa-twitter"></i></a>
+                        <a class="btn btn-social-icon btn-youtube" href="http://youtube.com/"><i class="fa fa-youtube"></i></a>
+                        <a class="btn btn-social-icon" href="mailto:"><i class="fa fa-envelope-o"></i></a>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <p style="padding:10px;"></p>
+                    <p align=center>© Copyright 2015 Liu An Chi</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

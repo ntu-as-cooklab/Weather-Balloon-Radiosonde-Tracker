@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Balloon Tracker</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/mystyle.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/jquery.js"></script>
+    <script src="js/socket.io.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">NTU-AS COOK Lab.</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html"><span class="glyphicon glyphicon-home"
+                         aria-hidden="true"></span> Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                         role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-paint-brush" aria-hidden="true"></i>Plot <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="index.html">Path</a></li>
+                            <li><a href="withTime.html">Var with Time</a></li>
+                            <li><a href="withHeight.html">Var with Height</a></li>
+                        </ul>
+                    </li>
+                    <li class="active"><a href="#">
+                        <span class="glyphicon glyphicon-info-sign"
+                         aria-hidden="true"></span>About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class = "jumbotron">
+        <div class = "container">
+            <div class="row row-header">
+                <div class = "col-xs-12 col-sm-9">
+                    <p style="padding:20px;"></p>
+                    <h1>Weather Balloon/<br>Radiosonde Tracker</h1>
+                    <p style="padding:30px;"></p>
+                    <p>Tracking balloon, graphing the path, and analyzing the data of Vaisala RS radiosonde</p>
+                </div>
+                <div class="col-xs-12 col-sm-1"></div>
+                <div class="col-xs-12 col-sm-2">
+                    <img src="img/balloon.png" class="img-responsive">
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class = "container">
+       <div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="breadcrumb">
+                        <li><a href="index.html">Home</a></li>
+                        <li class="active">About</li>
+                    </ul>
+               </div>
+                <div class="col-xs-12">
+                    <h1>About</h1>
+                       <hr>
+                </div>
+           </div>
+       </div>
+       <div class="row-content-about"  style="font-size:120%;">
+             <div class = "col-xs-12 col-sm-4">
+                <h2 align=center  style="padding:40px;">Introduction</h2>
+            </div>
+            <div class = "col-xs-12 col-sm-8">
+                <ol>
+                    <li>Choose files what you want to see, and click "<i>Upload File</i>". It supports multi-files.&nbsp;</li>
+                    <li>You can see the list of files auto-refreshed, if not click "<i>Refresh</i>."</li>
+                    <li>The files in the list are what will show in the program. You can select certain files by checkbox to delete files you don't want to show.&nbsp;</li>
+                    <li>Before you show the data, you can upload and delete files many times.</li>
+                    <li>After finish the list, click "<i>Calculate</i>" to get data from files. When it is running, it shows "<i>running...</i>"; when it finished, it shows "<i>Done</i>!"</li>
+                    <li>After calculation, click "<i>Show</i>" to the data virtualization.&nbsp;</li>
+                    <li>Repeat progress 1~6 to change the files you want to see.</li>
+                    <li>Once you calculate to get data, you can click "<i>Plot</i>" at the navigation bar to change what kind of plots you want to see.</li>
+                </ol>
+            </div>
+        </div>
+        <hr>
+        <div class="row-content-about"  style="font-size:120%;">
+             <div class = "col-xs-12 col-sm-4">
+                <h2 align=center  style="padding:20px;">Q&A</h2>
+            </div>
+            <div class = "col-xs-12 col-sm-8">
+                <div>
+                    <ul>
+                        <li><h4>Buttons do not work?</h4></li>
+                        <ul>
+                            <li><span style="font-weight: normal;">Click again! For some reasons unknown, refreshing list crash at some times, and "<i>Show</i>" button sometimes need to click twice to change the data.&nbsp;</span></li>
+                        </ul>
+                        <li><h4>2D path map disappear?</h4></li>
+                        <ul>
+                            <li><span style="font-weight: normal;">Press "<i>F5</i>" key. Refresh the whole page.&nbsp;</span></li>
+                        </ul>
+                      </ul>
+                 </div>
+            </div>
+        </div>
+   </div>
+    <footer class = "row-footer">
+        <div class = "container">
+            <div>             
+                <div class="col-xs-12">
+                    <p style="padding:10px;"></p>
+                    <p align=center>Copyright 2016 © by Liu, An-Chi @ NTU-AS COOK Lab.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

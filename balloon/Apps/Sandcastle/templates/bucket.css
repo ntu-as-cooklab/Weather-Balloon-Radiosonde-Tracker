@@ -1,0 +1,21 @@
+@import url(../../../Source/Widgets/widgets.css);
+@import url(../../../Source/Widgets/lighter.css);
+
+#loadingOverlay {
+    color: black;
+    text-align: center;
+}
+
+.sandcastle-loading #loadingOverlay {
+    display: block;
+}
+
+.sandcastle-loading #toolbar {
+    display: none;
+}
+
+#toolbar {
+    margin: 5px;
+    padding: 2px 5px;
+    position: absolute;
+}
