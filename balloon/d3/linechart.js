@@ -116,7 +116,7 @@ function linechart(res){
       .attr("height", 0)
       .attr("x", 0)
       .attr("y", 0)
-      .attr("class", "band");
+      .attr("class", "band"+target);
 
     svg.append("g")
         .attr("class", "x axis")
@@ -141,7 +141,7 @@ function linechart(res){
         .text(yAxisName);
 
     svg.append("clipPath")
-      .attr("id", "clip")
+      .attr("id", "clip_"+target)
       .append("rect")
       .attr("width", width)
       .attr("height", height);
@@ -150,7 +150,7 @@ function linechart(res){
       svg.append("path")
         .datum(data[idx])
         .attr("class", "line line" + idx)
-        .attr("clip-path", "url(#clip)")
+        .attr("clip-path", "url(#clip_"+target+")")
         .style("stroke", color(idx))
         .attr("d", line);
     }
@@ -206,10 +206,10 @@ function linechart(res){
         zoomArea.y1 = y2;
         zoomArea.y2 = y1;
       }
-
+      
       bandPos = [-1, -1];
 
-      d3.select(".band").transition()
+      d3.select(".band"+target).transition()
         .attr("width", 0)
         .attr("height", 0)
         .attr("x", bandPos[0])
@@ -223,25 +223,25 @@ function linechart(res){
       var pos = d3.mouse(this);
 
       if (pos[0] < bandPos[0]) {
-        d3.select(".band").
+        d3.select(".band"+target).  
         attr("transform", "translate(" + (pos[0]) + "," + bandPos[1] + ")");
       }
       if (pos[1] < bandPos[1]) {
-        d3.select(".band").
+        d3.select(".band"+target).
         attr("transform", "translate(" + (pos[0]) + "," + pos[1] + ")");
       }
       if (pos[1] < bandPos[1] && pos[0] > bandPos[0]) {
-        d3.select(".band").
+        d3.select(".band"+target).
         attr("transform", "translate(" + (bandPos[0]) + "," + pos[1] + ")");
       }
 
       //set new position of band when user initializes drag
       if (bandPos[0] == -1) {
         bandPos = pos;
-        d3.select(".band").attr("transform", "translate(" + bandPos[0] + "," + bandPos[1] + ")");
+        d3.select(".band"+target).attr("transform", "translate(" + bandPos[0] + "," + bandPos[1] + ")");
       }
 
-      d3.select(".band").transition().duration(1)
+      d3.select(".band"+target).transition().duration(1)
         .attr("width", Math.abs(bandPos[0] - pos[0]))
         .attr("height", Math.abs(bandPos[1] - pos[1]));
     });
@@ -284,7 +284,6 @@ function linechart(res){
     var legend = svg.append("g")
         .attr("class", "legend")
         .attr('transform', 'translate(0,10)') ;  
-      
    
     legend.selectAll('rect')
       .data(filename)
