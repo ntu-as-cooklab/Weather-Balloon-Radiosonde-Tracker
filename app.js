@@ -23,7 +23,7 @@ app.get('/api/cal', function(req, res){
     PythonShell.run(('draw_path_cesium.py'), { scriptPath: pyPath}, function (err) {
         if (err) throw err;
         console.log('draw 3D path finished');
-    }); 
+    });
     PythonShell.run(('draw_2Dpath_mapjs.py'), { scriptPath: pyPath},function (err) {
         if (err) throw err;
         console.log('draw 2D path finished');
@@ -45,7 +45,7 @@ app.get('/api/cal', function(req, res){
     PythonShell.run(('draw_p_height.py'), { scriptPath: pyPath},function (err) {
         if (err) throw err;
         console.log('draw_p_height.py finished');
-    });  
+    });
     PythonShell.run(('draw_temp_height.py'), { scriptPath: pyPath},function (err) {
         if (err) throw err;
         console.log('draw_temp_height.py finished');
@@ -53,7 +53,19 @@ app.get('/api/cal', function(req, res){
     PythonShell.run(('draw_rh_height.py'), { scriptPath: pyPath},function (err) {
         if (err) throw err;
         console.log('draw_rh_height.py finished');
-     });
+    });
+    PythonShell.run(('draw_vT_height.py'), { scriptPath: pyPath},function (err) {
+         if (err) throw err;
+         console.log('draw_vT_height.py finished');
+    });
+    PythonShell.run(('draw_wd_height.py'), { scriptPath: pyPath},function (err) {
+         if (err) throw err;
+         console.log('draw_wd_height.py finished');
+    });
+    PythonShell.run(('draw_ws_height.py'), { scriptPath: pyPath},function (err) {
+        if (err) throw err;
+        console.log('draw_ws_height.py finished');
+    });
     //
     PythonShell.run(('draw_azimuth.py'), { scriptPath: pyPath},function (err) {
         if (err) throw err;
@@ -74,7 +86,7 @@ app.post('/api/delFile', function(req, res){
                 }
                 console.log(delfile+": deleted successfully!");
                 fileList();
-            });    
+            });
         });
         res.json({ success: true });
     }
@@ -125,9 +137,9 @@ var server = app.listen(8000, function(){
 var socket = io.listen(server);
 
 // Add a connect listener
-/*socket.on('connection', function(client){ 
+/*socket.on('connection', function(client){
 	// Success!  Now listen to messages to be received
-	client.on('message',function(event){ 
+	client.on('message',function(event){
 		fileList();
 	});
 
@@ -149,9 +161,9 @@ var fileList = function(){
             if (error) {
                 console.error("write error:  " + error.message);
             }
-        });   
+        });
     });
 };
- 
+
 
 open("http://127.0.0.1:8000",'chrome');
