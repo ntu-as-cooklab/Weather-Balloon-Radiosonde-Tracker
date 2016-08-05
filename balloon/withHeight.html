@@ -13,16 +13,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/jquery.js"></script>
     <script src="js/socket.io.js"></script>
-    <script src="js/jquery.form.js"></script> 
+    <script src="js/jquery.form.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-filestyle.min.js"></script>
     <script src="js/bootstrap-table.js"></script>
-    <script src="js/d3.js"></script>  
+    <script src="js/d3.js"></script>
     <script src="js/api.js"></script>
+    <script src="d3/linechart.js"></script>
 </head>
 
 <body>
-    
+
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -53,7 +54,7 @@
                 </ul>
             </div>
         </div>
-    </nav>      
+    </nav>
 
     <header class = "jumbotron">
         <div class = "container">
@@ -84,7 +85,7 @@
                         <div class="progress">
                             <div class="progress-bar" role="progressbar"></div>
                         </div>
-                        <button class="btn btn-lg upload-btn" type="button">Upload File</button>   
+                        <button class="btn btn-lg upload-btn" type="button">Upload File</button>
                         <input id="upload-input" type="file" accept="text/plain" name="uploads[]" multiple="multiple"></br>
                         <script src="js/upload.js"></script>
                     </div>
@@ -92,7 +93,7 @@
             </div>
             <div class = "col-xs-12 col-sm-6">
                 <div class="row">
-                    
+
                     <table id="filetable"
                            data-toggle="table"
                            data-height="260"
@@ -122,7 +123,7 @@
                         </script>
                         <button id="refbtn" class="btn btn-primary">Refresh</button>
                         <script>
-                            listRefresh();                
+                            listRefresh();
                         </script>
                     </div>
                 </div>
@@ -131,7 +132,7 @@
                 <div id='calbnt' class='row'>
                     <button type="button" onclick="caldata()" class = "btn btn-info btn-block btn-lg">1. Calculate</button>
                     <div id='showStatus'></div>
-                </div>      
+                </div>
                 <div id='showbnt' class='row'>
                     <button type="button" class = "btn btn-info btn-block btn-lg" >2. Show</button>
                 </div>
@@ -149,7 +150,6 @@
                 </div>
                 <div align='center'>
                     <div id = "p_height"></div>
-                    <script src="d3/p_height.js"></script>
                     <script>
                         show_p_height();
                         $('#showbnt').on('click', function (){
@@ -164,7 +164,6 @@
                 </div>
                 <div align='center'>
                     <div id = "temp_height"></div>
-                    <script src="d3/temp_height.js"></script>
                     <script>
                         show_temp_height();
                         $('#showbnt').on('click', function (){
@@ -179,7 +178,6 @@
                 </div>
                 <div align='center'>
                     <div id = "rh_height"></div>
-                    <script src="d3/rh_height.js"></script>
                     <script>
                         show_rh_height();
                         $('#showbnt').on('click', function (){
@@ -187,13 +185,55 @@
                         });
                     </script>
                 </div>
-            </div> 
+            </div>
+            <div class = "col-xs-12">
+                <div class = "row">
+                    <h2 align=center>Height v.s. Virtual Temperature</h2>
+                </div>
+                <div align='center'>
+                    <div id = "vT_height"></div>
+                    <script>
+                        show_vT_height();
+                        $('#showbnt').on('click', function (){
+                            show_vT_height();
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class = "col-xs-12">
+                <div class = "row">
+                    <h2 align=center>Height v.s. Wind Speed</h2>
+                </div>
+                <div align='center'>
+                    <div id = "ws_height"></div>
+                    <script>
+                        show_ws_height();
+                        $('#showbnt').on('click', function (){
+                            show_ws_height();
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class = "col-xs-12">
+                <div class = "row">
+                    <h2 align=center>Height v.s. Wind Direction</h2>
+                </div>
+                <div align='center'>
+                    <div id = "wd_height"></div>
+                    <script>
+                        show_wd_height();
+                        $('#showbnt').on('click', function (){
+                            show_wd_height();
+                        });
+                    </script>
+                </div>
+            </div>
         </div>
 <!--   end of Draw Var v.s Time     -->
     </div>
     <footer class = "row-footer">
         <div class = "container">
-            <div>             
+            <div>
                 <div class="col-xs-12">
                     <p style="padding:10px;"></p>
                     <p align=center>Copyright 2016 © by Liu, An-Chi @ NTU-AS COOK Lab.</p>

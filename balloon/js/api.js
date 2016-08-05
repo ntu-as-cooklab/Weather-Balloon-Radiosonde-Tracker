@@ -10,13 +10,13 @@ var listRefresh = function () {
             console.log('Get Success');
             refresh();
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                    console.log("Status: " + textStatus + " listFile GET Error: " + errorThrown); 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Status: " + textStatus + " listFile GET Error: " + errorThrown);
                 }
     }).done(function(){
         refresh();
     });
-    
+
     console.log("List Refresh");
 };
 
@@ -28,8 +28,8 @@ var caldata = function () {
         success: function(data){
             console.log('Get CAL Success');
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                    console.log("Status: " + textStatus + " CAL GET Error: " + errorThrown); 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Status: " + textStatus + " CAL GET Error: " + errorThrown);
                 }
     }).done(function(){
         $("#showStatus").html('<span class="label label-success">Done!</span>');
@@ -50,8 +50,8 @@ var uploadDelItem = function (delData){
             console.log(filename + ': Delete Success');
             listRefresh();
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                    console.log("Status: " + textStatus + " delFile POST Error: " + errorThrown); 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Status: " + textStatus + " delFile POST Error: " + errorThrown);
         }
     }).done(function(){
         listRefresh();
@@ -62,10 +62,10 @@ var show_height_time = function (){
         url: '/data/height_time_data.js',
         type: 'GET',
         success: function(data){
-            eval(data);    
+            eval(data);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            console.log("Status: " + textStatus + " height_time.js GET Error: " + errorThrown); 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " height_time.js GET Error: " + errorThrown);
         }
      }).done(function(){
         draw_height_time();
@@ -77,10 +77,10 @@ var show_ascRate_time = function (){
         url: '/data/ascRate_time_data.js',
         type: 'GET',
         success: function(data){
-            eval(data);  
+            eval(data);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            console.log("Status: " + textStatus + " ascRate_time.js GET Error: " + errorThrown); 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " ascRate_time.js GET Error: " + errorThrown);
         }
      }).done(function(){
         draw_ascRate_time();
@@ -91,18 +91,20 @@ var show_accRate_time = function (){
         draw_accRate_time();
 }
 
+// --------  With Hight
 var show_p_height = function (){
     $.ajax({
         url: '/data/p_height_data.js',
         type: 'GET',
         success: function(data){
-            eval(data);  
+            eval(data);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            console.log("Status: " + textStatus + " p_height.js GET Error: " + errorThrown); 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " p_height.js GET Error: " + errorThrown);
         }
      }).done(function(){
-        draw_p_height();
+        $("#p_height").empty();
+        linechart(p_height_data);
     });
 }
 
@@ -111,13 +113,14 @@ var show_temp_height = function (){
         url: '/data/temp_height_data.js',
         type: 'GET',
         success: function(data){
-            eval(data);  
+            eval(data);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            console.log("Status: " + textStatus + " temp_height.js GET Error: " + errorThrown); 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " temp_height.js GET Error: " + errorThrown);
         }
      }).done(function(){
-        draw_temp_height();
+        $("#temp_height").empty();
+        linechart(temp_height_data);
     });
 }
 
@@ -126,25 +129,72 @@ var show_rh_height = function (){
         url: '/data/rh_height_data.js',
         type: 'GET',
         success: function(data){
-            eval(data);  
+            eval(data);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            console.log("Status: " + textStatus + " rh_height.js GET Error: " + errorThrown); 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " rh_height.js GET Error: " + errorThrown);
         }
      }).done(function(){
-        draw_rh_height();
+        $("#rh_height").empty();
+        linechart(rh_height_data);
     });
 }
+var show_vT_height = function (){
+    $.ajax({
+        url: '/data/vT_height_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " vT_height.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#vT_height").empty();
+        linechart(vT_height_data);
+    });
+}
+var show_ws_height = function (){
+    $.ajax({
+        url: '/data/ws_height_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " ws_height.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#ws_height").empty();
+        linechart(ws_height_data);
+    });
+}
+var show_wd_height = function (){
+    $.ajax({
+        url: '/data/wd_height_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " wd_height.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#wd_height").empty();
+        linechart(wd_height_data);
+    });
+}
+//-----------------
 
 var show_azimuth = function (){
     $.ajax({
         url: '/data/azimuth.js',
         type: 'GET',
         success: function(data){
-            eval(data);  
+            eval(data);
         },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            console.log("Status: " + textStatus + " azimuth GET Error: " + errorThrown); 
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " azimuth GET Error: " + errorThrown);
         }
      })
 }

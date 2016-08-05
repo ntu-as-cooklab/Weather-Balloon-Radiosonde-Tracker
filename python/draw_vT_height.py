@@ -5,7 +5,7 @@ files = [f for f in listdir(getcwd()+'\uploads') if isfile(join(getcwd()+'\uploa
 files = [f for f in files if f.endswith(".txt")]
 
 czml =(
-'var rh_height_data = {\n'
+'var vT_height_data = {\n'
 'data: [\n'
 )
 
@@ -26,12 +26,12 @@ for file in files:
             words = lines[i].split(' ')
             words = [x for x in words if len(x) > 0]
             if (len(words)>15) : #avoid crash data
-                data.append([words[6],words[3]])
+                data.append([float(words[10]) + 273.23, float(words[3])])
 
     input_stream.close()
 
     for j in range(0, len(data)) :
-        czml += ('[ %f, %f], ' %(float(data[j][0]),float(data[j][1])))
+        czml += ('[ %f, %f], ' %(data[j][0],data[j][1]))
         #if(j!=len(data)-1):
         #    czml += (' ,')
 
@@ -49,18 +49,18 @@ for file in files:
 
 czml += (
     '],\n'
-    'xAxisName: "%",\n'
+    'xAxisName: "Deg C",\n'
     "yAxisName: 'meter(s)',\n"
     'xMax: 0,\n'
     'yMax: 0,\n'
     'xMin: 1000,\n'
     'yMin: 1000,\n'
-    'target: "rh_height",\n'
+    'target: "vT_height",\n'
     'W: 800,\n'
     'H: 400\n'
     '}\n'
 )
 
-fout = open(getcwd()+'\\balloon\data'+'\\rh_height_data.js', 'w')
+fout = open(getcwd()+'\\balloon\data'+'\\vT_height_data.js', 'w')
 fout.write(czml)
 fout.close()
