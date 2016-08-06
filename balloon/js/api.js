@@ -57,6 +57,7 @@ var uploadDelItem = function (delData){
         listRefresh();
     });
 }
+//---------- With Time ----------------
 var show_height_time = function (){
     $.ajax({
         url: '/data/height_time_data.js',
@@ -68,7 +69,8 @@ var show_height_time = function (){
             console.log("Status: " + textStatus + " height_time.js GET Error: " + errorThrown);
         }
      }).done(function(){
-        draw_height_time();
+        $("#height_time").empty();
+        linechart(height_time_data);
     });
 }
 
@@ -83,15 +85,28 @@ var show_ascRate_time = function (){
             console.log("Status: " + textStatus + " ascRate_time.js GET Error: " + errorThrown);
         }
      }).done(function(){
-        draw_ascRate_time();
+        $("#ascRate_time").empty();
+        linechart(ascRate_time_data);
     });
 }
 
 var show_accRate_time = function (){
-        draw_accRate_time();
+  $.ajax({
+      url: '/data/accRate_time_data.js',
+      type: 'GET',
+      success: function(data){
+          eval(data);
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+          console.log("Status: " + textStatus + " accRate_time.js GET Error: " + errorThrown);
+      }
+   }).done(function(){
+      $("#accRate_time").empty();
+      linechart(accRate_time_data);
+  });
 }
 
-// --------  With Hight
+// --------  With Height
 var show_p_height = function (){
     $.ajax({
         url: '/data/p_height_data.js',
