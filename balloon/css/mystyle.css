@@ -142,8 +142,8 @@ body{
   display: none;
 }
 
-#map { 
-    width:99%; 
+#map {
+    width:99%;
     height:300px;
 }
 #ctrl-btn{

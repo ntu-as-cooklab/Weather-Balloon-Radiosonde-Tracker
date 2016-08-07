@@ -13,26 +13,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/jquery.js"></script>
     <script src="js/socket.io.js"></script>
-    <script src="js/jquery.form.js"></script> 
+    <script src="js/jquery.form.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-filestyle.min.js"></script>
     <script src="js/bootstrap-table.js"></script>
-    <script src="js/d3.js"></script>  
+    <script src="js/d3.js"></script>
     <script src="js/api.js"></script>
-    <script src="Apps/Sandcastle/Sandcastle-header.js"></script>
-    <script src="ThirdParty/requirejs-2.1.20/require.js"></script>
-    <script>
-        require.config({
-            baseUrl : '/Source',
-            waitSeconds : 30
-        });
-        requirejs(["leaflet"]);
-    </script>
-    <link href='css/leaflet.css' rel='stylesheet'>
 </head>
 
 <body>
-    
+
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -52,7 +42,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                          role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-paint-brush" aria-hidden="true"></i>Plot <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Path</a></li>
+                            <li><a href="path.html">Path</a></li>
                             <li><a href="withTime.html">Var with Time</a></li>
                             <li><a href="withHeight.html">Var with Height</a></li>
                         </ul>
@@ -62,7 +52,7 @@
                 </ul>
             </div>
         </div>
-    </nav>      
+    </nav>
 
     <header class = "jumbotron">
         <div class = "container">
@@ -93,7 +83,7 @@
                         <div class="progress">
                             <div class="progress-bar" role="progressbar"></div>
                         </div>
-                        <button class="btn btn-lg upload-btn" type="button">Upload File</button>   
+                        <button class="btn btn-lg upload-btn" type="button">Upload File</button>
                         <input id="upload-input" type="file" accept="text/plain" name="uploads[]" multiple="multiple"></br>
                         <script src="js/upload.js"></script>
                     </div>
@@ -101,7 +91,7 @@
             </div>
             <div class = "col-xs-12 col-sm-6">
                 <div class="row">
-                    
+
                     <table id="filetable"
                            data-toggle="table"
                            data-height="260"
@@ -131,7 +121,7 @@
                         </script>
                         <button id="refbtn" class="btn btn-primary">Refresh</button>
                         <script>
-                            listRefresh();                
+                            listRefresh();
                         </script>
                     </div>
                 </div>
@@ -140,7 +130,7 @@
                 <div id='calbnt' class='row'>
                     <button type="button" onclick="caldata()" class = "btn btn-info btn-block btn-lg">1. Calculate</button>
                     <div id='showStatus'></div>
-                </div>          
+                </div>
                 <div id='showbnt' class='row'>
                     <button type="button" class = "btn btn-info btn-block btn-lg">2. Show</button>
                 </div>
@@ -148,152 +138,12 @@
                 <script>
                     connect();
                 </script>
-            </div>  
-        </div>
-        <!-- Cesium -->
-        <div class="row row-content">
-            <div id = "cesium" class = "col-xs-12 col-lg-7">
-                <div class = "row" align="center">
-                    <h2>3D Path</h2>
-                </div>           
-                <div id="cesiumContainer" class = "col-xs-12"></div>
-                <div id="loadingOverlay" class = "col-xs-12"><h3>Loading...</h3></div>
-                <script id="cesium_sandcastle_script">
-                    $(document).ready(function(){
-                        window.addEventListener("load", function(){
-                            $('#loadingOverlay').hide(5);
-                        }, false);                                                
-                           
-                        var twice = false;
-                        
-                        function startup(Cesium) {
-                            'use strict';
-                            var czml = [];
-                            var viewer = new Cesium.Viewer('cesiumContainer', {
-                                imageryProvider : new Cesium.ArcGisMapServerImageryProvider({
-                                url : 'http://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer'
-                                }),
-                                baseLayerPicker : false
-                            });
-                            var terrainProvider = new Cesium.CesiumTerrainProvider({
-                                url : '//assets.agi.com/stk-terrain/world'
-                            });
-                            viewer.terrainProvider = terrainProvider;
-                            $.ajax({
-                                url: '/data/3dpath.txt',
-                                type: 'GET',
-                                success: function(data){
-                                    czml = eval("("+data+")"); 
-                                },
-                                error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                                    console.log("Status: " + textStatus + " 3Dpath File GET Error: " + errorThrown); 
-                                }
-                            }).done(function(){            
-                                var dataSource = Cesium.CzmlDataSource.load(czml);
-                                if(twice){
-                                    viewer.dataSources.removeAll();
-                                }
-                                viewer.dataSources.add(dataSource);
-                                viewer.zoomTo(dataSource);
-                                Sandcastle.finishedLoading();
-                                twice = true;
-                            });                           
-                        }
-                        if (typeof Cesium !== "undefined") {
-                            startup(Cesium);
-                        } else if (typeof require === "function") {
-                            require(["Cesium"], startup);
-                        }
-                        $('#showbnt').on('click', function (){
-                            $("#cesiumContainer").empty();
-                            require(["Cesium"], startup);
-                        });
-                    })
-                </script>
-            </div>
-            <!-- End of Cesium -->
-            <!-- Begin of Mapbox -->
-            <div class = "col-xs-12 col-lg-5">
-                <div class = "row">
-                    <h2 align=center>2D Path</h2>
-                </div>
-                <div align=center>
-                    <div id = "map"></div>
-                    <script>                 
-                        var map = L.map('map').setView([23.5, 120.5], 5);
-
-                        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-                                 maxZoom: 18,
-                                 attribution: '',
-                                 id: 'mapbox.streets'
-                        }).addTo(map);
-                            
-                        $.ajax({
-                                url: '/data/2dpath.js',
-                                type: 'GET',
-                                success: function(data){
-                                    eval(data);    
-                                },
-                                error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                                    console.log("Status: " + textStatus + " 3Dpath File GET Error: " + errorThrown); 
-                                }
-                        });
-
-                        $('#showbnt').on('click', function (){
-                            function clearMap() {
-                                for(i in map._layers) {
-                                    if(map._layers[i]._path != undefined) {
-                                        try {
-                                            map.removeLayer(map._layers[i]);
-                                        }
-                                        catch(e) {
-                                            console.log("problem with " + e + map._layers[i]);
-                                        }
-                                    }
-                                }
-                            };
-                            
-                            clearMap();
-                            
-                            $.ajax({
-                                url: '/data/2dpath.js',
-                                type: 'GET',
-                                success: function(data){
-                                    eval(data); 
-                                },
-                                error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                                    console.log("Status: " + textStatus + " 3Dpath File GET Error: " + errorThrown); 
-                                }
-                            })
-                        });
-                    </script>
-                </div>
-            </div>
-            <!-- End of Mapbox -->
-        </div>
-        <!-- Begin of  of Azimuth -->
-        <div class="row row-content">
-            <div class = "row">
-                <h2 align=center>Azimuth & Distance</h2>
-            </div>
-            <div class = "row">
-                <div id="azimuth" align='center' style="padding:0px 20px 10px 30px;">
-                    <iframe id='azi-iframe' src="azimuth.html" width="850px" height="800px" frameborder="0" scrolling="no"></iframe>
-                </div>
-                <script>
-                    $('#showbnt').on('click', function (){
-                        var iframe = document.getElementById('azi-iframe');
-                        iframe.src = iframe.src;  
-                    });
-                
-                </script>
             </div>
         </div>
-        <!-- End of Azimuth -->
     </div>
     <footer class = "row-footer">
         <div class = "container">
-            <div>             
+            <div>
                 <div class="col-xs-12">
                     <p style="padding:10px;"></p>
                     <p align=center>Copyright 2016 © by Liu, An-Chi @ NTU-AS COOK Lab.</p>
