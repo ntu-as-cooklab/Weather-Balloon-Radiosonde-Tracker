@@ -112,10 +112,10 @@
                         listRefresh();
                     </script>
                     <div>
-                        <button id="delbnt" class="btn btn-danger">Delete Selections</button>
+                        <button id="delbtn" class="btn btn-danger">Delete Selections</button>
                         <script>
                             $(function () {
-                                $('#delbnt').click(function () {
+                                $('#delbtn').click(function () {
                                     var delData = $('#filetable').bootstrapTable('getSelections');
                                     uploadDelItem(delData);
                                 });
@@ -129,11 +129,11 @@
                 </div>
             </div>
             <div id='ctrl-btn' class = "col-xs-12 col-sm-2" align="center">
-                <div id='calbnt' class='row'>
+                <div id='calbtn' class='row'>
                     <button type="button" onclick="caldata()" class = "btn btn-info btn-block btn-lg">1. Calculate</button>
                     <div id='showStatus'></div>
                 </div>
-                <div id='showbnt' class='row'>
+                <div id='showbtn' class='row'>
                     <button type="button" class = "btn btn-info btn-block btn-lg" >2. Show</button>
                 </div>
                 <div id="connected" style="padding:10px;"></div>
@@ -152,7 +152,7 @@
                     <div id = "p_height"></div>
                     <script>
                         show_p_height();
-                        $('#showbnt').on('click', function (){
+                        $('#showbtn').on('click', function (){
                             show_p_height();
                         });
                     </script>
@@ -166,7 +166,7 @@
                     <div id = "temp_height"></div>
                     <script>
                         show_temp_height();
-                        $('#showbnt').on('click', function (){
+                        $('#showbtn').on('click', function (){
                             show_temp_height();
                         });
                     </script>
@@ -180,7 +180,7 @@
                     <div id = "rh_height"></div>
                     <script>
                         show_rh_height();
-                        $('#showbnt').on('click', function (){
+                        $('#showbtn').on('click', function (){
                             show_rh_height();
                         });
                     </script>
@@ -194,7 +194,7 @@
                     <div id = "vT_height"></div>
                     <script>
                         show_vT_height();
-                        $('#showbnt').on('click', function (){
+                        $('#showbtn').on('click', function (){
                             show_vT_height();
                         });
                     </script>
@@ -208,7 +208,7 @@
                     <div id = "ws_height"></div>
                     <script>
                         show_ws_height();
-                        $('#showbnt').on('click', function (){
+                        $('#showbtn').on('click', function (){
                             show_ws_height();
                         });
                     </script>
@@ -222,7 +222,7 @@
                     <div id = "wd_height"></div>
                     <script>
                         show_wd_height();
-                        $('#showbnt').on('click', function (){
+                        $('#showbtn').on('click', function (){
                             show_wd_height();
                         });
                     </script>

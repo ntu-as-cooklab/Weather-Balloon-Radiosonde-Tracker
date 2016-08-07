@@ -120,10 +120,10 @@
                         listRefresh();
                     </script>
                     <div>
-                        <button id="delbnt" class="btn btn-danger">Delete Selections</button>
+                        <button id="delbtn" class="btn btn-danger">Delete Selections</button>
                         <script>
                             $(function () {
-                                $('#delbnt').click(function () {
+                                $('#delbtn').click(function () {
                                     var delData = $('#filetable').bootstrapTable('getSelections');
                                     uploadDelItem(delData);
                                 });
@@ -137,11 +137,11 @@
                 </div>
             </div>
             <div id='ctrl-btn' class = "col-xs-12 col-sm-2" align="center">
-                <div id='calbnt' class='row'>
+                <div id='calbtn' class='row'>
                     <button type="button" onclick="caldata()" class = "btn btn-info btn-block btn-lg">1. Calculate</button>
                     <div id='showStatus'></div>
                 </div>
-                <div id='showbnt' class='row'>
+                <div id='showbtn' class='row'>
                     <button type="button" class = "btn btn-info btn-block btn-lg">2. Show</button>
                 </div>
                 <div id="connected" style="padding:10px;"></div>
@@ -204,7 +204,7 @@
                         } else if (typeof require === "function") {
                             require(["Cesium"], startup);
                         }
-                        $('#showbnt').on('click', function (){
+                        $('#showbtn').on('click', function (){
                             $("#cesiumContainer").empty();
                             require(["Cesium"], startup);
                         });
@@ -239,7 +239,7 @@
                                 }
                         });
 
-                        $('#showbnt').on('click', function (){
+                        $('#showbtn').on('click', function (){
                             function clearMap() {
                                 for(i in map._layers) {
                                     if(map._layers[i]._path != undefined) {
@@ -281,7 +281,7 @@
                     <iframe id='azi-iframe' src="azimuth.html" width="850px" height="800px" frameborder="0" scrolling="no"></iframe>
                 </div>
                 <script>
-                    $('#showbnt').on('click', function (){
+                    $('#showbtn').on('click', function (){
                         var iframe = document.getElementById('azi-iframe');
                         iframe.src = iframe.src;
                     });
