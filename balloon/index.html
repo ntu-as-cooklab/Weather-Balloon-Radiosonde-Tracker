@@ -110,10 +110,10 @@
                         listRefresh();
                     </script>
                     <div>
-                        <button id="delbnt" class="btn btn-danger">Delete Selections</button>
+                        <button id="delbtn" class="btn btn-danger">Delete Selections</button>
                         <script>
                             $(function () {
-                                $('#delbnt').click(function () {
+                                $('#delbtn').click(function () {
                                     var delData = $('#filetable').bootstrapTable('getSelections');
                                     uploadDelItem(delData);
                                 });
@@ -127,12 +127,25 @@
                 </div>
             </div>
             <div id='ctrl-btn' class = "col-xs-12 col-sm-2" align="center">
-                <div id='calbnt' class='row'>
+                <div id='calbtn' class='row'>
                     <button type="button" onclick="caldata()" class = "btn btn-info btn-block btn-lg">1. Calculate</button>
                     <div id='showStatus'></div>
                 </div>
-                <div id='showbnt' class='row'>
-                    <button type="button" class = "btn btn-info btn-block btn-lg">2. Show</button>
+                <div id='showbtn' class='row'>
+                  <div class="btn-group btn-block" role="group">
+
+                    <button id="showBtnGroupDrop" type="button" class="btn btn-info btn-block btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        2. Plot Category
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="showBtnGroupDrop">
+                        <li><a class="btn-lg" href="path.html">Path</a></li>
+                        <li class="divider"></li>
+                        <li><a class="btn-lg" href="withTime.html">Var with Time</a></li>
+                        <li class="divider"></li>
+                        <li><a class="btn-lg" href="withHright.html">Var with Height</a></li>
+                    </ul>
+                  </div>
                 </div>
                 <div id="connected" style="padding:10px;"></div>
                 <script>
