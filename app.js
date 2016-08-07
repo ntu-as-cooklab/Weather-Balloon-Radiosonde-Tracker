@@ -72,7 +72,7 @@ app.get('/api/cal', function(req, res){
         console.log('draw_azimuth.py finished');
      });
 
-     res.json({ success: true });
+     setTimeout( function(){ res.json({ success: true })} ,3000);
 });
 
 
