@@ -23,7 +23,6 @@
 </head>
 
 <body>
-
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -121,7 +120,7 @@
                                 });
                             });
                         </script>
-                        <button id="refbtn" class="btn btn-primary">Refresh</button>
+                        <button id="refbtn" class="btn btn-primary">Refresh List</button>
                         <script>
                             listRefresh();
                         </script>
@@ -142,90 +141,104 @@
                 </script>
             </div>
         </div>
+        <div class="row row-input">
+            <h3>Show:
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-P" checked>P</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-T" checked>T</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-RH" checked>RH</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-vT" checked>vT</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-WS" checked>WS</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-WD" checked>WD</label>
+                <button type="submit" id = "ok" class = "btn btn-info">Submit</button>
+            </h3>
+            <script>
+                var rec = {};
+                $("[name=chart]").each(function(){
+                    rec[$(this).val()] = false;
+                });
+                $(document).ready(function(){
+                    $("#ok").click(function(){
+                        $("[name=chart]").each(function(){
+                            if ($(this).is(':checked')) {
+                                rec[$(this).val()] = true;
+                                $('#heightContent').show();
+                                $('#'+$(this).val()).show();
+                            }
+                            else{
+                                rec[$(this).val()] = false;
+                                $('#'+$(this).val()).hide();
+                            }
+                        });
+                        showChart();
+                    });
+                });
+                function showChart(){
+                    if(rec['H-P'])
+                        show_p_height();
+                    if(rec['H-T'])
+                        show_temp_height();
+                    if(rec['H-RH'])
+                        show_rh_height();
+                    if(rec['H-vT'])
+                        show_vT_height();
+                    if(rec['H-WS'])
+                        show_ws_height();
+                    if(rec['H-WD'])
+                        show_wd_height();
+                }
+                $('#showbtn').on('click', function (){
+                    showChart();
+                });
+            </script>
+        </div>
 <!--    Draw Var v.s Height    -->
-        <div class="row row-content">
-            <div class = "col-xs-12">
+        <div class="row row-content" id = 'heightContent' style="display:none">
+            <div class = "col-xs-12" id = "H-P" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Pressure</h2>
                 </div>
                 <div align='center'>
                     <div id = "p_height"></div>
-                    <script>
-                        show_p_height();
-                        $('#showbtn').on('click', function (){
-                            show_p_height();
-                        });
-                    </script>
                 </div>
             </div>
-            <div class = "col-xs-12">
+            <div class = "col-xs-12" id = "H-T" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Temperature</h2>
                 </div>
                 <div align='center'>
                     <div id = "temp_height"></div>
-                    <script>
-                        show_temp_height();
-                        $('#showbtn').on('click', function (){
-                            show_temp_height();
-                        });
-                    </script>
                 </div>
             </div>
-            <div class = "col-xs-12">
+            <div class = "col-xs-12" id = "H-RH" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Relative Humidity</h2>
                 </div>
                 <div align='center'>
                     <div id = "rh_height"></div>
-                    <script>
-                        show_rh_height();
-                        $('#showbtn').on('click', function (){
-                            show_rh_height();
-                        });
-                    </script>
                 </div>
             </div>
-            <div class = "col-xs-12">
+            <div class = "col-xs-12" id = "H-vT" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Virtual Temperature</h2>
                 </div>
                 <div align='center'>
                     <div id = "vT_height"></div>
-                    <script>
-                        show_vT_height();
-                        $('#showbtn').on('click', function (){
-                            show_vT_height();
-                        });
-                    </script>
                 </div>
             </div>
-            <div class = "col-xs-12">
+            <div class = "col-xs-12" id = "H-WS" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Wind Speed</h2>
                 </div>
                 <div align='center'>
                     <div id = "ws_height"></div>
-                    <script>
-                        show_ws_height();
-                        $('#showbtn').on('click', function (){
-                            show_ws_height();
-                        });
-                    </script>
                 </div>
             </div>
-            <div class = "col-xs-12">
+            <div class = "col-xs-12" id = "H-WD" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Wind Direction</h2>
                 </div>
                 <div align='center'>
                     <div id = "wd_height"></div>
-                    <script>
-                        show_wd_height();
-                        $('#showbtn').on('click', function (){
-                            show_wd_height();
-                        });
-                    </script>
                 </div>
             </div>
         </div>
@@ -241,7 +254,5 @@
             </div>
         </div>
     </footer>
-
 </body>
-
 </html>
