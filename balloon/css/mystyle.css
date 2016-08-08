@@ -1,3 +1,8 @@
+.row{
+    padding: 5px 0px 0px 5px;
+    /*min-height:40px;*/
+}
+
 .row-header{
     margin:0px auto;
     padding:0px auto;
@@ -25,7 +30,7 @@
 
 .row-input{
     margin:0px auto;
-    padding: 10px 0px 20px 0px;
+    padding: 10px 0px 15px 0px;
 }
 
 .jumbotron {
