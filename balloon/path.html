@@ -20,19 +20,18 @@
     <script src="js/d3.js"></script>
     <script src="js/api.js"></script>
     <script src="Apps/Sandcastle/Sandcastle-header.js"></script>
+    <script src="js/leaflet.js"></script>
     <script src="ThirdParty/requirejs-2.1.20/require.js"></script>
     <script>
         require.config({
             baseUrl : '/Source',
-            waitSeconds : 30
+            waitSeconds : 60
         });
-        requirejs(["leaflet"]);
     </script>
     <link href='css/leaflet.css' rel='stylesheet'>
 </head>
 
 <body>
-
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -129,7 +128,7 @@
                                 });
                             });
                         </script>
-                        <button id="refbtn" class="btn btn-primary">Refresh</button>
+                        <button id="refbtn" class="btn btn-primary">Refresh List</button>
                         <script>
                             listRefresh();
                         </script>
@@ -220,24 +219,26 @@
                 <div align=center>
                     <div id = "map"></div>
                     <script>
-                        var map = L.map('map').setView([23.5, 120.5], 5);
+                        // requirejs(["leaflet"], function() {
+                          var map = L.map('map').setView([23.5, 120.5], 5);
 
-                        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-                                 maxZoom: 18,
-                                 attribution: '',
-                                 id: 'mapbox.streets'
-                        }).addTo(map);
-
-                        $.ajax({
-                                url: '/data/2dpath.js',
-                                type: 'GET',
-                                success: function(data){
-                                    eval(data);
-                                },
-                                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                    console.log("Status: " + textStatus + " 3Dpath File GET Error: " + errorThrown);
-                                }
-                        });
+                          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+                                   maxZoom: 18,
+                                   attribution: '',
+                                   id: 'mapbox.streets'
+                          }).addTo(map);
+                          $.ajax({
+                                  url: '/data/2dpath.js',
+                                  type: 'GET',
+                                  success: function(data){
+                                      eval(data);
+                                  },
+                                  error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                      console.log("Status: " + textStatus + " 2Dpath File GET Error: " + errorThrown);
+                                      console.log('2')
+                                  }
+                          });
+                        // });
 
                         $('#showbtn').on('click', function (){
                             function clearMap() {
@@ -262,7 +263,7 @@
                                     eval(data);
                                 },
                                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                    console.log("Status: " + textStatus + " 3Dpath File GET Error: " + errorThrown);
+                                    console.log("Status: " + textStatus + " 2Dpath File GET Error: " + errorThrown);
                                 }
                             })
                         });
@@ -285,7 +286,6 @@
                         var iframe = document.getElementById('azi-iframe');
                         iframe.src = iframe.src;
                     });
-
                 </script>
             </div>
         </div>
