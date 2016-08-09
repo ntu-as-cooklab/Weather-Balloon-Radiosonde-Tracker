@@ -56,8 +56,8 @@ czml += (
     'xMin: 1000,\n'
     'yMin: 1000,\n'
     'target: "ws_height",\n'
-    'W: 800,\n'
-    'H: 400\n'
+    'W: 500,\n'
+    'H: 800\n'
     '}\n'
 )
 
