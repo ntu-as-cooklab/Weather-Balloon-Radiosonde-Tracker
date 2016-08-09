@@ -36,6 +36,24 @@ var caldata = function () {
     });
 };
 
+var modalSet = function(){
+    var options = [];
+    $("[name=option]").each(function(){
+        options.push($(this).val());
+    });
+    $.ajax({
+        url: '/api/setup',
+        type: 'POST',
+        data: { options: options},
+        success: function(data){
+            console.log('Options Setting Success');
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("Status: " + textStatus + " Options Setting GET Error: " + errorThrown);
+        }
+    });
+};
+
 var uploadDelItem = function (delData){
     var filename = [];
     for(var i= 0; i< delData.length; i++){
@@ -107,6 +125,54 @@ var show_accRate_time = function (){
 }
 
 // --------  With Height
+var show_accRate_height = function (){
+    $.ajax({
+        url: '/data/accRate_height_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " accRate_height.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#accRate_height").empty();
+        linechart(accRate_height_data);
+    });
+}
+
+var show_ascRate_height = function (){
+    $.ajax({
+        url: '/data/ascRate_height_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " ascRate_height.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#ascRate_height").empty();
+        linechart(ascRate_height_data);
+    });
+}
+
+var show_time_height = function (){
+    $.ajax({
+        url: '/data/time_height_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " time_height.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#time_height").empty();
+        linechart(time_height_data);
+    });
+}
+
 var show_p_height = function (){
     $.ajax({
         url: '/data/p_height_data.js',
