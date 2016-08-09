@@ -42,6 +42,18 @@ app.get('/api/cal', function(req, res){
         console.log('draw_accRate_time.py finished');
     });
     //
+    PythonShell.run(('draw_ascRate_height.py'), { scriptPath: pyPath},function (err) {
+        if (err) throw err;
+        console.log('draw_ascRate_height.py finished');
+    });
+    PythonShell.run(('draw_accRate_height.py'), { scriptPath: pyPath},function (err) {
+        if (err) throw err;
+        console.log('draw_accRate_height.py finished');
+    });
+    PythonShell.run(('draw_time_height.py'), { scriptPath: pyPath},function (err) {
+        if (err) throw err;
+        console.log('draw_time_height.py finished');
+    });
     PythonShell.run(('draw_p_height.py'), { scriptPath: pyPath},function (err) {
         if (err) throw err;
         console.log('draw_p_height.py finished');
@@ -77,7 +89,7 @@ app.get('/api/cal', function(req, res){
 
 
 app.post('/api/delFile', function(req, res){
-    delfiles = req.body.filename;
+    var delfiles = req.body.filename;
     if(delfiles.length){
         delfiles.forEach(function(delfile){
             fs.unlink(path.join(__dirname, '/uploads/')+delfile, function(err) {
@@ -94,6 +106,17 @@ app.post('/api/delFile', function(req, res){
 
 app.get('/api/listFile', function(req, res){
     fileList();
+    res.json({ success: true });
+});
+
+app.post('/api/setup', function(req, res){
+    var opts = req.body.options;
+    console.log(typeof(opts));
+    fs.writeFile(path.join(__dirname, 'setting/setting.txt'), opts, function(error) {
+      if (error) {
+        console.error("write error:  " + error.message);
+      }
+    });
     res.json({ success: true });
 });
 
