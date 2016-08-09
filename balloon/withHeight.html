@@ -37,10 +37,10 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="index.html"><span class="glyphicon glyphicon-home"
-                         aria-hidden="true"></span> Home</a></li>
+                         aria-hidden="true"></span> Home </a></li>
                     <li class="active dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                         role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-paint-brush" aria-hidden="true"></span>Plot <span class="caret"></span></a>
+                         role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-paint-brush" aria-hidden="true"></span> Plot <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="path.html">Path</a></li>
                             <li><a href="withTime.html">Var With Time</a></li>
@@ -49,7 +49,7 @@
                     </li>
                     <li><a href="about.html">
                         <span class="glyphicon glyphicon-info-sign"
-                         aria-hidden="true"></span>About</a></li>
+                         aria-hidden="true"></span> About </a></li>
                 </ul>
             </div>
         </div>
@@ -143,6 +143,9 @@
         </div>
         <div class="row row-input">
             <h3>Show:
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-t" checked>t</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-asc" checked>Asc</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-acc" checked>Acc</label>
                 <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-P" checked>P</label>
                 <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-T" checked>T</label>
                 <label class="checkbox-inline"><input type="checkbox" name="chart" value="H-RH" checked>RH</label>
@@ -173,6 +176,12 @@
                     });
                 });
                 function showChart(){
+                    if(rec['H-t'])
+                        show_time_height();
+                    if(rec['H-asc'])
+                        show_ascRate_height();
+                    if(rec['H-acc'])
+                        show_accRate_height();
                     if(rec['H-P'])
                         show_p_height();
                     if(rec['H-T'])
@@ -193,7 +202,31 @@
         </div>
 <!--    Draw Var v.s Height    -->
         <div class="row row-content" id = 'heightContent' style="display:none">
-            <div class = "col-xs-12" id = "H-P" style="display:none">
+            <div class = "col-xs-12 col-md-6" id = "H-t" style="display:none">
+                <div class = "row">
+                    <h2 align=center>Height v.s. Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "time_height"></div>
+                </div>
+            </div>
+            <div class = "col-xs-12 col-md-6" id = "H-asc" style="display:none">
+                <div class = "row">
+                    <h2 align=center>Height v.s. Acscending</h2>
+                </div>
+                <div align='center'>
+                    <div id = "ascRate_height"></div>
+                </div>
+            </div>
+            <div class = "col-xs-12 col-md-6" id = "H-acc" style="display:none">
+                <div class = "row">
+                    <h2 align=center>Height v.s. Acceleration</h2>
+                </div>
+                <div align='center'>
+                    <div id = "accRate_height"></div>
+                </div>
+            </div>
+            <div class = "col-xs-12 col-md-6" id = "H-P" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Pressure</h2>
                 </div>
@@ -201,7 +234,7 @@
                     <div id = "p_height"></div>
                 </div>
             </div>
-            <div class = "col-xs-12" id = "H-T" style="display:none">
+            <div class = "col-xs-12 col-md-6" id = "H-T" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Temperature</h2>
                 </div>
@@ -209,7 +242,7 @@
                     <div id = "temp_height"></div>
                 </div>
             </div>
-            <div class = "col-xs-12" id = "H-RH" style="display:none">
+            <div class = "col-xs-12 col-md-6" id = "H-RH" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Relative Humidity</h2>
                 </div>
@@ -217,7 +250,7 @@
                     <div id = "rh_height"></div>
                 </div>
             </div>
-            <div class = "col-xs-12" id = "H-vT" style="display:none">
+            <div class = "col-xs-12 col-md-6" id = "H-vT" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Virtual Temperature</h2>
                 </div>
@@ -225,7 +258,7 @@
                     <div id = "vT_height"></div>
                 </div>
             </div>
-            <div class = "col-xs-12" id = "H-WS" style="display:none">
+            <div class = "col-xs-12 col-md-6" id = "H-WS" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Wind Speed</h2>
                 </div>
@@ -233,7 +266,7 @@
                     <div id = "ws_height"></div>
                 </div>
             </div>
-            <div class = "col-xs-12" id = "H-WD" style="display:none">
+            <div class = "col-xs-12 col-md-6" id = "H-WD" style="display:none">
                 <div class = "row">
                     <h2 align=center>Height v.s. Wind Direction</h2>
                 </div>
