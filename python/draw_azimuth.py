@@ -1,6 +1,17 @@
 from os import listdir, getcwd
 from os.path import isfile, join
 from math import sin, cos, atan, hypot
+#---Setting---
+timeLimit = 0
+heightLimit = 0
+SETTING_FILE_PATH = getcwd()+'\setting\setting.txt'
+with open(SETTING_FILE_PATH, 'r') as input_stream :
+    lines = input_stream.readlines()
+    option = lines[0].split(',')
+    timeLimit = float(option[0])
+    heightLimit = float(option[1])
+input_stream.close()
+#-----------
 files = [f for f in listdir(getcwd()+'\uploads') if isfile(join(getcwd()+'\uploads', f))]
 files = [f for f in files if f.endswith(".txt")]
 
@@ -17,9 +28,9 @@ for file in files :
     data = []
     with open(FILE_PATH, 'r') as input_stream :
         lines = input_stream.readlines()
-        
+
         words = lines[4].split(' ')
-        words = [x for x in words if len(x) > 0]  
+        words = [x for x in words if len(x) > 0]
         posX = 0
         posY = 0
         data.append([0, 0])
@@ -27,12 +38,20 @@ for file in files :
 
             words = lines[i].split(' ')
             words = [x for x in words if len(x) > 0]
-            if (len(words)>15) : #avoid crash data 
+            #---Setting---
+            minutes = float(words[0]) + float(words[1])/60
+            height = float(words[3])
+            if(minutes > timeLimit):
+                break
+            if(height > heightLimit):
+                break
+            #-------------
+            if (len(words)>15) : #avoid crash data
                 dir_degree = 3.1415926*(float(words[8])+180)/180
-                speed = float(words[9])         
+                speed = float(words[9])
                 u = cos(dir_degree)*speed
                 v = sin(dir_degree)*speed
-                posX += u/1000 
+                posX += u/1000
                 posY += v/1000
                 azimuth = 0
                 if(posX>0 and posY>0):
@@ -42,7 +61,7 @@ for file in files :
                 elif(posX<0 and posY>0):
                     azimuth = 180+(atan(posY/posX) * 180/3.1415926)
                 elif(posX<0 and posY<0):
-                    azimuth = 180+(atan(posY/posX) * 180/3.1415926)  
+                    azimuth = 180+(atan(posY/posX) * 180/3.1415926)
                 distance = hypot(posX, posY)
                 data.append( [azimuth, distance])
 
@@ -54,20 +73,20 @@ for file in files :
     ) %fileIndex
 
     for j in range(0, len(data),10) : #azimuth
-        czml += ('%f' %float(data[j][0])) 
+        czml += ('%f' %float(data[j][0]))
         if(j!=len(data)-1):
             czml +=(',')
-    
+
     czml += (
         '],\n'
         '  r: [\n'
     )
-    
+
     for j in range(0, len(data),10) : #distance
-        czml += ('%f' %float(data[j][1])) 
+        czml += ('%f' %float(data[j][1]))
         if(j!=len(data)-1):
             czml +=(',')
-            
+
     czml += (
     '],\n'
     '  mode: "lines",\n'
@@ -79,10 +98,10 @@ for file in files :
     '  type: "scatter"\n'
     '};\n'
     ) % (file, rgbColor[colorIndex%10])
-    
+
     colorIndex += 1
     fileIndex += 1
-#---------------special case-----------  
+#---------------special case-----------
 if(fileIndex<1):
     czml += (
       "  var trace0 = {\n"
@@ -140,15 +159,15 @@ if(fileIndex<3):
       "  };\n"
     )
     fileIndex += 1
-#--------------------------------------------    
+#--------------------------------------------
 czml += (
 'var data = ['
 )
 for j in range(0, fileIndex) :
-    czml += ('trace%d' %j) 
+    czml += ('trace%d' %j)
     if(j!=fileIndex-1):
         czml +=(', ')
-          
+
 czml += (
 '];\n'
 'var layout = {\n'
@@ -174,7 +193,7 @@ czml += (
 '};\n'
 'Plotly.plot("azimuth", data, layout)\n'
 )
-    
+
 fout = open(getcwd()+'\\balloon\data'+'\\azimuth.js', 'w')
 fout.write(czml)
 fout.close()

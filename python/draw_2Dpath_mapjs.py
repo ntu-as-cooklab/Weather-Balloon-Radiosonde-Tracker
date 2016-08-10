@@ -1,6 +1,17 @@
 from os import listdir, getcwd
 from os.path import isfile, join
 from math import sin, cos
+#---Setting---
+timeLimit = 0
+heightLimit = 0
+SETTING_FILE_PATH = getcwd()+'\setting\setting.txt'
+with open(SETTING_FILE_PATH, 'r') as input_stream :
+    lines = input_stream.readlines()
+    option = lines[0].split(',')
+    timeLimit = float(option[0])
+    heightLimit = float(option[1])
+input_stream.close()
+#-----------
 files = [f for f in listdir(getcwd()+'\uploads') if isfile(join(getcwd()+'\uploads', f))]
 files = [f for f in files if f.endswith(".txt")]
 
@@ -17,27 +28,34 @@ for file in files :
     data = []
     with open(FILE_PATH, 'r') as input_stream :
         lines = input_stream.readlines()
-        
+
         words = lines[4].split(' ')
-        words = [x for x in words if len(x) > 0]  
+        words = [x for x in words if len(x) > 0]
         lat = float(words[11])
         lon = float(words[12])
-        hieght = 0
-        data.append([lon, lat, hieght])
-        
+        _hieght = 0
+        data.append([lon, lat, _hieght])
+
         for i in range( 4, len(lines)) : #avoid head text
 
             words = lines[i].split(' ')
             words = [x for x in words if len(x) > 0]
-            if (len(words)>15) : #avoid crash data 
+            #---Setting---
+            minutes = float(words[0]) + float(words[1])/60
+            height = float(words[3])
+            if(minutes > timeLimit):
+                break
+            if(height > heightLimit):
+                break
+            #-------------
+            if (len(words)>15) : #avoid crash data
                 dir_degree = 3.1415926*(float(words[8])+180)/180
-                speed = float(words[9])         
+                speed = float(words[9])
                 u = cos(dir_degree)*speed
                 v = sin(dir_degree)*speed
-                lat += u/110736 
+                lat += u/110736
                 lon += v/102189
-                hieght = 0
-                data.append([lon, lat, hieght])
+                data.append([lon, lat, _hieght])
 
     input_stream.close()
 
@@ -59,7 +77,7 @@ for file in files :
     '};\n'
     'var polyline = L.polyline(line_points_%d, polyline_options_%d).addTo(map);\n'
     ) % (fileIndex, rgbColor[colorIndex%10], fileIndex, fileIndex)
-    
+
     colorIndex += 1
     fileIndex += 1
 
@@ -67,7 +85,7 @@ czml += (
     'map.fitBounds(line_points_0);\n'
     '})'
 )
-    
+
 fout = open(getcwd()+'\\balloon\data'+'\\2dpath.js', 'w')
 fout.write(czml)
 fout.close()
