@@ -124,6 +124,99 @@ var show_accRate_time = function (){
   });
 }
 
+var show_p_time = function (){
+    $.ajax({
+        url: '/data/p_time_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " p_time.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#p_time").empty();
+        linechart(p_time_data);
+    });
+}
+
+var show_temp_time = function (){
+    $.ajax({
+        url: '/data/temp_time_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " temp_time.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#temp_time").empty();
+        linechart(temp_time_data);
+    });
+}
+
+var show_rh_time = function (){
+    $.ajax({
+        url: '/data/rh_time_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " rh_time.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#rh_time").empty();
+        linechart(rh_time_data);
+    });
+}
+var show_vT_time = function (){
+    $.ajax({
+        url: '/data/vT_time_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " vT_time.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#vT_time").empty();
+        linechart(vT_time_data);
+    });
+}
+var show_ws_time = function (){
+    $.ajax({
+        url: '/data/ws_time_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " ws_time.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#ws_time").empty();
+        linechart(ws_time_data);
+    });
+}
+var show_wd_time = function (){
+    $.ajax({
+        url: '/data/wd_time_data.js',
+        type: 'GET',
+        success: function(data){
+            eval(data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log("Status: " + textStatus + " wd_time.js GET Error: " + errorThrown);
+        }
+     }).done(function(){
+        $("#wd_time").empty();
+        linechart(wd_time_data);
+    });
+}
+
 // --------  With Height
 var show_accRate_height = function (){
     $.ajax({

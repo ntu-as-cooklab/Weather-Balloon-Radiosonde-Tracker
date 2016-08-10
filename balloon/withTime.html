@@ -122,7 +122,11 @@
                         </script>
                         <button id="refbtn" class="btn btn-primary">Refresh List</button>
                         <script>
-                            listRefresh();
+                            $(function () {
+                                $('#refbtn').click(function () {
+                                    listRefresh();
+                                });
+                            });
                         </script>
                     </div>
                 </div>
@@ -132,9 +136,24 @@
                     <button type="button" onclick="caldata()" class = "btn btn-info btn-block btn-lg">1. Calculate</button>
                     <div id='showStatus'></div>
                 </div>
-
                 <div id='showbtn' class='row'>
-                    <button type="button" class = "btn btn-info btn-block btn-lg" >2. Show</button>
+                  <div class="btn-group btn-block" role="group">
+                    <button id="showBtnGroupDrop" type="button" class="btn btn-info btn-block btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        2. Plot Category
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="showBtnGroupDrop">
+                        <li><a class="btn-lg" href="path.html">Path</a></li>
+                        <li class="divider"></li>
+                        <li><a class="btn-lg" href="withTime.html">Var with Time</a></li>
+                        <li class="divider"></li>
+                        <li><a class="btn-lg" href="withHeight.html">Var with Height</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class='row'></div>
+                <div id='setbtn' class='row'>
+                    <button type="button" class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#myModal">Settings</button>
                 </div>
                 <div id="connected" style="padding:10px;"></div>
                 <script>
@@ -147,6 +166,12 @@
                 <label class="checkbox-inline"><input type="checkbox" name="chart" value="x-t" checked>Height</label>
                 <label class="checkbox-inline"><input type="checkbox" name="chart" value="v-t" checked>Acscending</label>
                 <label class="checkbox-inline"><input type="checkbox" name="chart" value="a-t" checked>Acceleration</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="P-t" checked>P</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="T-t" checked>T</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="RH-t" checked>RH</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="vT-t" checked>vT</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="WS-t" checked>WS</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="WD-t" checked>WD</label>
                 <button type="submit" id = "ok" class = "btn btn-info">Submit</button>
             </h3>
             <script>
@@ -177,6 +202,18 @@
                         show_ascRate_time();
                     if(rec['a-t'])
                         show_accRate_time();
+                    if(rec['P-t'])
+                        show_p_time();
+                    if(rec['T-t'])
+                        show_temp_time();
+                    if(rec['RH-t'])
+                        show_rh_time();
+                    if(rec['vT-t'])
+                        show_vT_time();
+                    if(rec['WS-t'])
+                        show_ws_time();
+                    if(rec['WD-t'])
+                        show_wd_time();
                 }
                 $('#showbtn').on('click', function (){
                     showChart();
@@ -209,8 +246,90 @@
                     <div id = "accRate_time"></div>
                 </div>
             </div>
+            <div class = "col-xs-12" id = "P-t" style="display:none">
+                <div class = "row">
+                    <h2 align=center>Pressure v.s. Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "p_time"></div>
+                </div>
+            </div>
+            <div class = "col-xs-12" id = "T-t" style="display:none">
+                <div class = "row">
+                    <h2 align=center>Temperature v.s. Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "temp_time"></div>
+                </div>
+            </div>
+            <div class = "col-xs-12" id = "RH-t" style="display:none">
+                <div class = "row">
+                    <h2 align=center>Relative Humidity v.s. Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "rh_time"></div>
+                </div>
+            </div>
+            <div class = "col-xs-12" id = "vT-t" style="display:none">
+                <div class = "row">
+                    <h2 align=center>Virtual Temperature v.s. Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "vT_time"></div>
+                </div>
+            </div>
+            <div class = "col-xs-12" id = "WS-t" style="display:none">
+                <div class = "row">
+                    <h2 align=center>Wind Speed v.s. Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "ws_time"></div>
+                </div>
+            </div>
+            <div class = "col-xs-12" id = "WD-t" style="display:none">
+                <div class = "row">
+                    <h2 align=center>Wind Direction v.s. Time</h2>
+                </div>
+                <div align='center'>
+                    <div id = "wd_time"></div>
+                </div>
+            </div>
         </div>
 <!--   end of Draw Var With Time     -->
+    </div>
+<!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Settings for Data</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form" role="form">
+                        <div class="form-group">
+                            <label for="dtl">Data Time Limit (minutes):</label>
+                            <input type="number" class="form-control" name="option" min="5" value='100'>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dhl">Data Height Limit (meters):</label>
+                            <input type="number" class="form-control" name="option" min="0" value='100000'>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id='modalbtn'>Apply</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <script>
+                        $('#modalbtn').click(function(){
+                            modalSet();
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
     </div>
     <footer class = "row-footer">
         <div class = "container">

@@ -121,7 +121,11 @@
                         </script>
                         <button id="refbtn" class="btn btn-primary">Refresh List</button>
                         <script>
-                            listRefresh();
+                            $(function () {
+                                $('#refbtn').click(function () {
+                                    listRefresh();
+                                });
+                            });
                         </script>
                     </div>
                 </div>
@@ -129,6 +133,7 @@
             <div id='ctrl-btn' class = "col-xs-12 col-sm-2" align="center">
                 <div id='calbtn' class='row'>
                     <button type="button" onclick="caldata()" class = "btn btn-info btn-block btn-lg">1. Calculate</button>
+                    <div id='showStatus'></div>
                 </div>
                 <div id='showbtn' class='row'>
                   <div class="btn-group btn-block" role="group">
@@ -145,6 +150,7 @@
                     </ul>
                   </div>
                 </div>
+                <div class='row'></div>
                 <div id='setbtn' class='row'>
                     <button type="button" class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#myModal">Settings</button>
                 </div>
@@ -180,7 +186,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" id='modalbtn'>Apply</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <script> $('#modalbtn').click(function(){ modalSet(); });</script>
+                    <script>
+                        $('#modalbtn').click(function(){
+                            modalSet();
+                        });
+                    </script>
                 </div>
             </div>
         </div>
