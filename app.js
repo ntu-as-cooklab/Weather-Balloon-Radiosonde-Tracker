@@ -20,73 +20,23 @@ app.get('/', function(req, res){
 
 app.get('/api/cal', function(req, res){
     var pyPath = path.join(__dirname, 'python');
-    PythonShell.run(('draw_path_cesium.py'), { scriptPath: pyPath}, function (err) {
+    fs.readdir(__dirname+ '/python', function(err, files) {
         if (err) throw err;
-        console.log('draw 3D path finished');
+        files.forEach(function(file){
+            PythonShell.run(file, { scriptPath: pyPath}, function (err) {
+                if (err) throw err;
+                console.log('cal data '+ file+ ' finished');
+            });
+        });
     });
-    PythonShell.run(('draw_2Dpath_mapjs.py'), { scriptPath: pyPath},function (err) {
+    var waittingTime = 0;
+    fs.readdir(__dirname+ '/uploads', function(err, files) {
         if (err) throw err;
-        console.log('draw 2D path finished');
+        var filelen = files.length;
+        waittingTime = 1300 * filelen;
+        setTimeout( function(){ res.json({ success: true })} , waittingTime);
     });
-    //
-    PythonShell.run(('draw_height_time.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_height_time.py finished');
-    });
-    PythonShell.run(('draw_ascRate_time.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_ascRate_time.py finished');
-    });
-    PythonShell.run(('draw_accRate_time.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_accRate_time.py finished');
-    });
-    //
-    PythonShell.run(('draw_ascRate_height.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_ascRate_height.py finished');
-    });
-    PythonShell.run(('draw_accRate_height.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_accRate_height.py finished');
-    });
-    PythonShell.run(('draw_time_height.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_time_height.py finished');
-    });
-    PythonShell.run(('draw_p_height.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_p_height.py finished');
-    });
-    PythonShell.run(('draw_temp_height.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_temp_height.py finished');
-    });
-    PythonShell.run(('draw_rh_height.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_rh_height.py finished');
-    });
-    PythonShell.run(('draw_vT_height.py'), { scriptPath: pyPath},function (err) {
-         if (err) throw err;
-         console.log('draw_vT_height.py finished');
-    });
-    PythonShell.run(('draw_wd_height.py'), { scriptPath: pyPath},function (err) {
-         if (err) throw err;
-         console.log('draw_wd_height.py finished');
-    });
-    PythonShell.run(('draw_ws_height.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_ws_height.py finished');
-    });
-    //
-    PythonShell.run(('draw_azimuth.py'), { scriptPath: pyPath},function (err) {
-        if (err) throw err;
-        console.log('draw_azimuth.py finished');
-     });
-
-     setTimeout( function(){ res.json({ success: true })} ,3000);
 });
-
 
 app.post('/api/delFile', function(req, res){
     var delfiles = req.body.filename;
@@ -111,7 +61,6 @@ app.get('/api/listFile', function(req, res){
 
 app.post('/api/setup', function(req, res){
     var opts = req.body.options;
-    console.log(typeof(opts));
     fs.writeFile(path.join(__dirname, 'setting/setting.txt'), opts, function(error) {
       if (error) {
         console.error("write error:  " + error.message);
