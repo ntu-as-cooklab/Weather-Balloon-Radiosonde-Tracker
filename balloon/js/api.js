@@ -34,6 +34,7 @@ var caldata = function () {
                 }
     }).done(function(){
         $("#showStatus").html('<span class="label label-success">Done!</span>');
+        setTimeout(function(){$("#showStatus").hide();}, 2000);
     });
 };
 
