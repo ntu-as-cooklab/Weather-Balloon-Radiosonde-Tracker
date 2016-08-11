@@ -45,7 +45,7 @@ for file in files:
                 break
             #-------------
             if (len(words)>15) : #avoid crash data
-                data.append([float(words[10]), float(words[3])])
+                data.append([float(words[10])+273, float(words[3])])
 
     input_stream.close()
 
@@ -66,7 +66,7 @@ for file in files:
 
 czml += (
     '],\n'
-    'xAxisName: "Deg C",\n'
+    'xAxisName: "K",\n'
     "yAxisName: 'meter(s)',\n"
     'xMax: 0,\n'
     'yMax: 0,\n'

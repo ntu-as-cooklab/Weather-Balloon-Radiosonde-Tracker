@@ -45,7 +45,7 @@ for file in files:
                 break
             #-------------
             if (len(words)>15) : #avoid crash data
-                data.append([ minutes, float(words[10])])
+                data.append([ minutes, float(words[10])+273])
 
     input_stream.close()
 
