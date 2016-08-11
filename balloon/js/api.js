@@ -21,6 +21,7 @@ var listRefresh = function () {
 };
 
 var caldata = function () {
+    $("#showStatus").show();
     $("#showStatus").html('<span class="label label-danger">running...</span>');
     $.ajax({
         url: '/api/cal',
@@ -381,6 +382,6 @@ var connect = function(){
     });
     // Add a disconnect listener
     socket.on('disconnect',function() {
-        $("#connected").html('<div class="alert alert-danger"><strong>Disconnect!</strong> Please excute the server again!</div>');
+        $("#connected").html('<div class="alert alert-danger"><strong>Disconnect!</strong>\nExcute the server again!</div>');
     });
 }
