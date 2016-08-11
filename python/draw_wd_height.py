@@ -51,7 +51,7 @@ for file in files:
 
     for j in range(0, len(data)) :
         czml += ('[ %f, %f], ' %(float(data[j][0]),float(data[j][1])))
-        
+
         fileIndex += 1
 
     czml += ('], \n')
@@ -74,7 +74,8 @@ czml += (
     'yMin: 1000,\n'
     'target: "wd_height",\n'
     'W: 500,\n'
-    'H: 800\n'
+    'H: 800,\n'
+    'xTickVal: [45,90,135,180,225,270,315,360],\n'
     '}\n'
 )
 

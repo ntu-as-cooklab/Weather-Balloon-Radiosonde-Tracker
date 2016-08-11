@@ -10,23 +10,27 @@ var res = {
         yMin: 1000,
         target: 'graph', // #ID
         W: 800,
-        H: 400
+        H: 400,
+        xTickVal: [],
+        yTickVal: []
     }
 */
-function linechart(res){   
-    var data = res.data; 
-    var filename = res.filename; 
+function linechart(res){
+    var data = res.data;
+    var filename = res.filename;
     var xAxisName = res.xAxisName;
-    var yAxisName = res.yAxisName; 
+    var yAxisName = res.yAxisName;
     var xMax = res.xMax;
     var yMax = res.yMax;
     var xMin = res.xMin;
     var yMin = res.yMin;
     var target = res.target;
     var W = res.W, H = res.H;
-    
+    var xTickVal = res.xTickVal;
+    var yTickVal = res.yTickVal;
+
     for(var i in data){
-        var _data = d3.zip.apply( null, data[i]) 
+        var _data = d3.zip.apply( null, data[i])
         var _x = d3.max(_data[0]);
         var _y = d3.max(_data[1]);
         xMax = (xMax > _x) ? xMax: _x;
@@ -36,10 +40,10 @@ function linechart(res){
         xMin = (xMin < _x) ? xMin: _x;
         yMin = (yMin < _y) ? yMin: _y;
     }
-    
+
     var bandPos = [-1, -1];
     var pos;
-    
+
     var color = d3.scale.ordinal()
             .range(['rgb(255, 0, 0)','rgb(51, 204, 51','rgb(0, 153, 255)','rgb(255, 255, 0)',
             'rgb(204, 0, 153)','rgb(51, 51, 0)','rgb(255, 0, 102)','rgb(200, 200, 200)','rgb(0, 51, 102)',
@@ -60,7 +64,7 @@ function linechart(res){
       y2: yMax
     };
     var drag = d3.behavior.drag();
-    
+
     var x = d3.scale.linear()
       .range([0, width]).domain([xMin, xMax]);
 
@@ -69,21 +73,25 @@ function linechart(res){
 
     var xAxis = d3.svg.axis()
       .scale(x)
-      .orient("bottom");
+      .orient("bottom")
+      .tickValues(xTickVal);
 
     var yAxis = d3.svg.axis()
       .scale(y)
-      .orient("left");
-      
+      .orient("left")
+      .tickValues(yTickVal);
+
     var x_grid = d3.svg.axis()
         .scale(x)
         .orient("bottom")
+        .tickValues(xTickVal)
         .tickSize(-height)
         .tickFormat("") ;
 
     var y_grid = d3.svg.axis()
         .scale(y)
-        .orient("left") 
+        .orient("left")
+        .tickValues(yTickVal)
         .tickSize(-width)
         .tickFormat("") ;
 
@@ -92,7 +100,7 @@ function linechart(res){
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-      
+
     svg.append("g")
         .attr("class", "x grid")
         .attr("transform", "translate(0," + height + ")")
@@ -206,7 +214,7 @@ function linechart(res){
         zoomArea.y1 = y2;
         zoomArea.y2 = y1;
       }
-      
+
       bandPos = [-1, -1];
 
       d3.select(".band"+target).transition()
@@ -223,7 +231,7 @@ function linechart(res){
       var pos = d3.mouse(this);
 
       if (pos[0] < bandPos[0]) {
-        d3.select(".band"+target).  
+        d3.select(".band"+target).
         attr("transform", "translate(" + (pos[0]) + "," + bandPos[1] + ")");
       }
       if (pos[1] < bandPos[1]) {
@@ -266,7 +274,7 @@ function linechart(res){
       t.select(".y.axis").call(yAxis);
       t.select(".x.grid").call(x_grid);
       t.select(".y.grid").call(y_grid);
-      t.selectAll(".line").attr("d", line); 
+      t.selectAll(".line").attr("d", line);
     }
 
     var zoomOut = function() {
@@ -278,13 +286,13 @@ function linechart(res){
       t.select(".y.axis").call(yAxis);
       t.select(".x.grid").call(x_grid);
       t.select(".y.grid").call(y_grid);
-      t.selectAll(".line").attr("d", line);     
+      t.selectAll(".line").attr("d", line);
     }
-    
+
     var legend = svg.append("g")
         .attr("class", "legend")
-        .attr('transform', 'translate(0,10)') ;  
-   
+        .attr('transform', 'translate(0,10)') ;
+
     legend.selectAll('rect')
       .data(filename)
       .enter()
@@ -294,7 +302,7 @@ function linechart(res){
 	  .attr("width", 10)
 	  .attr("height", 10)
 	  .style("fill", function(_, i) {return color(i);});
-      
+
     legend.selectAll('text')
       .data(filename)
       .enter()
