@@ -71,27 +71,47 @@ function linechart(res){
     var y = d3.scale.linear()
       .range([height, 0]).domain([yMin, yMax]);
 
-    var xAxis = d3.svg.axis()
-      .scale(x)
-      .orient("bottom")
-      .tickValues(xTickVal);
+    var xAxis = d3.svg.axis() // origin axis
+        .scale(x)
+        .orient("bottom")
+        .tickValues(xTickVal);
 
-    var yAxis = d3.svg.axis()
-      .scale(y)
-      .orient("left")
-      .tickValues(yTickVal);
+    var _xAxis = d3.svg.axis() // zoom axis
+        .scale(x)
+        .orient("bottom");
 
-    var x_grid = d3.svg.axis()
+    var yAxis = d3.svg.axis() // orgin axis
+        .scale(y)
+        .orient("left")
+        .tickValues(yTickVal);
+
+    var _yAxis = d3.svg.axis() // zoom axis
+        .scale(y)
+        .orient("left");
+
+    var x_grid = d3.svg.axis() // origin grid
         .scale(x)
         .orient("bottom")
         .tickValues(xTickVal)
         .tickSize(-height)
         .tickFormat("") ;
 
-    var y_grid = d3.svg.axis()
+    var _x_grid = d3.svg.axis() // zoom grid
+        .scale(x)
+        .orient("bottom")
+        .tickSize(-height)
+        .tickFormat("") ;
+
+    var y_grid = d3.svg.axis() // origin axis
         .scale(y)
         .orient("left")
         .tickValues(yTickVal)
+        .tickSize(-width)
+        .tickFormat("") ;
+
+    var _y_grid = d3.svg.axis() // zoom axis
+        .scale(y)
+        .orient("left")
         .tickSize(-width)
         .tickFormat("") ;
 
@@ -270,10 +290,10 @@ function linechart(res){
 
       //update axis and redraw lines
       var t = svg.transition().duration(750);
-      t.select(".x.axis").call(xAxis);
-      t.select(".y.axis").call(yAxis);
-      t.select(".x.grid").call(x_grid);
-      t.select(".y.grid").call(y_grid);
+      t.select(".x.axis").call(_xAxis);
+      t.select(".y.axis").call(_yAxis);
+      t.select(".x.grid").call(_x_grid);
+      t.select(".y.grid").call(_y_grid);
       t.selectAll(".line").attr("d", line);
     }
 
