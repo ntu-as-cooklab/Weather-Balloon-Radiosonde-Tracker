@@ -209,8 +209,6 @@ function linechart(res){
       .attr("y", height + (margin.bottom - 5))
       .text("Zoom Out");
 
-    zoom();
-
     drag.on("dragend", function() {
       var pos = d3.mouse(this);
       var x1 = x.invert(bandPos[0]);
