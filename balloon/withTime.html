@@ -165,21 +165,32 @@
         </div>
         <div class="row row-input">
             <h3>Show:
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="x-t" checked>H</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="v-t" checked>Asc</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="a-t" checked>Acc</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="P-t" checked>P</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="T-t" checked>T</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="RH-t" checked>RH</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="vT-t" checked>vT</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="WS-t" checked>WS</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="WD-t" checked>WD</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="x-t">H</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="v-t">Asc</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="a-t">Acc</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="P-t">P</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="T-t">T</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="RH-t">RH</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="vT-t">vT</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="WS-t">WS</label>
+                <label class="checkbox-inline"><input type="checkbox" name="chart" value="WD-t">WD</label>
+                <button type="submit" id = "all" class = "btn btn-default">All</button>
                 <button type="submit" id = "ok" class = "btn btn-info">Submit</button>
             </h3>
             <script>
                 var rec = {};
+                let clicked = false;
                 $("[name=chart]").each(function(){
                     rec[$(this).val()] = false;
+                });
+                $("#all").click(function(){
+                    if(!clicked){
+                        $("input[name='chart']").prop("checked", true);
+                        clicked = !clicked;
+                    }else {
+                        $("input[name='chart']").prop("checked", false);
+                        clicked = !clicked;
+                    }
                 });
                 $(document).ready(function(){
                     $("#ok").click(function(){
