@@ -59,6 +59,12 @@ app.get('/api/listFile', function(req, res){
     res.json({ success: true });
 });
 
+app.get('/api/getListFile', function(req, res){
+    fs.readdir(__dirname+ '/uploads', function(err, files) {
+        res.json({success: true, fileData: files});
+    });
+});
+
 app.post('/api/setup', function(req, res){
     var opts = req.body.options;
     fs.writeFile(path.join(__dirname, 'setting/setting.txt'), opts, function(error) {

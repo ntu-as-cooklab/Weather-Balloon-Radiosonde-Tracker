@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <script src="js/jquery.js"></script>
+    <script src="js/d3.js"></script>
+    <link href="css/skewT.css" rel="stylesheet">
+    <script src="js/skewT.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div id="selector"></div><br>
+    <div id="mainbox"></div>
+    <script>
+        var filename = [];
+        var getFile = (function () {
+            $.ajax({
+                url: '/api/getListFile',
+                type: 'GET',
+                success: function(data){
+                    filename = data.fileData;
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            console.log("Status: " + textStatus + " getFile GET Error: " + errorThrown);
+                }
+            }).done(function(){
+                filename.forEach(function(i){
+                    $("#selector").append('<button type="button" class="btn btn-default" id="'+i+'" onclick="draw_skewT(\''+i+'\')">'+i+'</button>');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

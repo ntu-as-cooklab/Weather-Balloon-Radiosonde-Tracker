@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <head>
     <title>Balloon Tracker</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -19,9 +17,7 @@
     <script src="js/d3.js"></script>
     <script src="js/api.js"></script>
     <script src="js/socket.io.js"></script>
-    <script src="d3/linechart.js"></script>
 </head>
-
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
@@ -45,7 +41,7 @@
                             <li><a href="path.html">Path</a></li>
                             <li><a href="#">Var with Time</a></li>
                             <li><a href="withHeight.html">Var with Height</a></li>
-                            <li><a href="skewT.html">Skew T/Log P</a></li>
+                            <li><a href="#">Skew T/Log P</a></li>
                         </ul>
                     </li>
                     <li><a href="about.html">
@@ -72,9 +68,6 @@
             </div>
         </div>
     </header>
-    <style>
-        @import url(/Apps/Sandcastle/templates/bucket.css);
-    </style>
     <div class = "container">
         <div class = "row row-input">
             <div class = "col-xs-12 col-sm-4">
@@ -93,7 +86,6 @@
             </div>
             <div class = "col-xs-12 col-sm-6">
                 <div class="row">
-
                     <table id="filetable"
                            data-toggle="table"
                            data-height="260"
@@ -153,7 +145,7 @@
                         <li class="divider"></li>
                         <li><a class="btn-lg" href="withHeight.html">Var with Height</a></li>
                         <li class="divider"></li>
-                        <li><a class="btn-lg" href="skewT.html">Skew T/Log P</a></li>
+                        <li><a class="btn-lg" href="#">Skew T/Log P</a></li>
                     </ul>
                   </div>
                 </div>
@@ -166,152 +158,22 @@
                 </script>
             </div>
         </div>
-        <div class="row row-input">
-            <h3>Show:
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="x-t">H</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="v-t">Asc</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="a-t">Acc</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="P-t">P</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="T-t">T</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="RH-t">RH</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="vT-t">vT</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="WS-t">WS</label>
-                <label class="checkbox-inline"><input type="checkbox" name="chart" value="WD-t">WD</label>
-                <button type="submit" id = "all" class = "btn btn-default">All</button>
-                <button type="submit" id = "ok" class = "btn btn-info">Submit</button>
-            </h3>
-            <script>
-                var rec = {};
-                let clicked = false;
-                $("[name=chart]").each(function(){
-                    rec[$(this).val()] = false;
-                });
-                $("#all").click(function(){
-                    if(!clicked){
-                        $("input[name='chart']").prop("checked", true);
-                        clicked = !clicked;
-                    }else {
-                        $("input[name='chart']").prop("checked", false);
-                        clicked = !clicked;
-                    }
-                });
-                $(document).ready(function(){
-                    $("#ok").click(function(){
-                        $("[name=chart]").each(function(){
-                            if ($(this).is(':checked')) {
-                                rec[$(this).val()] = true;
-                                $('#timeContent').show();
-                                $('#'+$(this).val()).show();
-                            }
-                            else{
-                                rec[$(this).val()] = false;
-                                $('#'+$(this).val()).hide();
-                            }
-                        });
-                        showChart();
+        <div class="row row-content">
+            <div class = "row">
+                <h2 align=center>Skew T - Log P</h2>
+            </div>
+            <div class = "row">
+                <div align='center' style="padding:0px 20px 10px 30px;">
+                    <iframe id='skewT-iframe' src="skewT-logP.html" width="800px" height="800px" frameborder="0" scrolling="no"></iframe>
+                </div>
+                <script>
+                    $('#showbtn').on('click', function (){
+                        var iframe = document.getElementById('skewT-iframe');
+                        iframe.src = iframe.src;
                     });
-                });
-                function showChart(){
-                    if(rec['x-t'])
-                        show_height_time()
-                    if(rec['v-t'])
-                        show_ascRate_time();
-                    if(rec['a-t'])
-                        show_accRate_time();
-                    if(rec['P-t'])
-                        show_p_time();
-                    if(rec['T-t'])
-                        show_temp_time();
-                    if(rec['RH-t'])
-                        show_rh_time();
-                    if(rec['vT-t'])
-                        show_vT_time();
-                    if(rec['WS-t'])
-                        show_ws_time();
-                    if(rec['WD-t'])
-                        show_wd_time();
-                }
-                $('#showbtn').on('click', function (){
-                    showChart();
-                });
-            </script>
-        </div>
-<!--    Draw Var With Time    -->
-        <div class="row row-content" id = 'timeContent' style="display:none">
-            <div class = "col-xs-12" id = "x-t" style="display:none">
-                <div class = "row">
-                    <h2 align=center>Height v.s. Time</h2>
-                </div>
-                <div align='center'>
-                    <div id = "height_time"></div>
-                </div>
-            </div>
-            <div class = "col-xs-12" id = "v-t" style="display:none">
-                <div class = "row" >
-                    <h2 align=center>AscRate v.s. Time</h2>
-                </div>
-                <div align='center'>
-                    <div id = "ascRate_time"></div>
-                </div>
-            </div>
-            <div class = "col-xs-12" id = "a-t" style="display:none">
-                <div class = "row">
-                    <h2 align=center>AccRate v.s. Time</h2>
-                </div>
-                <div align='center'>
-                    <div id = "accRate_time"></div>
-                </div>
-            </div>
-            <div class = "col-xs-12" id = "P-t" style="display:none">
-                <div class = "row">
-                    <h2 align=center>Pressure v.s. Time</h2>
-                </div>
-                <div align='center'>
-                    <div id = "p_time"></div>
-                </div>
-            </div>
-            <div class = "col-xs-12" id = "T-t" style="display:none">
-                <div class = "row">
-                    <h2 align=center>Temperature v.s. Time</h2>
-                </div>
-                <div align='center'>
-                    <div id = "temp_time"></div>
-                </div>
-            </div>
-            <div class = "col-xs-12" id = "RH-t" style="display:none">
-                <div class = "row">
-                    <h2 align=center>Relative Humidity v.s. Time</h2>
-                </div>
-                <div align='center'>
-                    <div id = "rh_time"></div>
-                </div>
-            </div>
-            <div class = "col-xs-12" id = "vT-t" style="display:none">
-                <div class = "row">
-                    <h2 align=center>Virtual Temperature v.s. Time</h2>
-                </div>
-                <div align='center'>
-                    <div id = "vT_time"></div>
-                </div>
-            </div>
-            <div class = "col-xs-12" id = "WS-t" style="display:none">
-                <div class = "row">
-                    <h2 align=center>Wind Speed v.s. Time</h2>
-                </div>
-                <div align='center'>
-                    <div id = "ws_time"></div>
-                </div>
-            </div>
-            <div class = "col-xs-12" id = "WD-t" style="display:none">
-                <div class = "row">
-                    <h2 align=center>Wind Direction v.s. Time</h2>
-                </div>
-                <div align='center'>
-                    <div id = "wd_time"></div>
-                </div>
+                </script>
             </div>
         </div>
-<!--   end of Draw Var With Time     -->
     </div>
 <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">

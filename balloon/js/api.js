@@ -7,7 +7,6 @@ var listRefresh = function () {
         url: '/api/listFile',
         type: 'GET',
         success: function(data){
-            console.log('Get Success');
             refresh();
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -16,7 +15,6 @@ var listRefresh = function () {
     }).done(function(){
         refresh();
     });
-
     console.log("List Refresh");
 };
 
