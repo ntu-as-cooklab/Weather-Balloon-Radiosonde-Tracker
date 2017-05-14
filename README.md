@@ -1,6 +1,9 @@
 # Weather-Balloon-Radiosonde-Tracker
 Tracking balloon, graphing the path, and analyzing the data of Vaisala RS radiosonde
 
+## Demo
+![](https://raw.githubusercontent.com/tigercosmos/webImg/master/balloon.gif)
+
 ## Environment
 python 2.7+, node.js 4.4+, the code tests in Windows
 
