@@ -1,13 +1,19 @@
-# Weather-Balloon-Radiosonde-Tracker
-Tracking balloon, graphing the path, and analyzing the data of Vaisala RS radiosonde
+# Weather Balloon Radiosonde Tracker
+This project visualizes the data of Vaisala RS radiosonde.
+
+Track and graph the path in 2D and 3D.
+
+Plot charts about vars with time or vars with height.
+
+Plot skew T/log P chart.
 
 ## Demo
 ![](https://raw.githubusercontent.com/tigercosmos/webImg/master/balloon.gif)
 
-## Environment
-python 2.7+, node.js 4.4+, the code tests in Windows
+## Test Environment
+python 2.7, node.js 4.4+, the code tests in Windows
 
-##Excute
+## Excute
 ```bash
 git clone https://github.com/tigercosmos/Weather-Balloon-Radiosonde-Tracker.git
 ```
@@ -19,7 +25,7 @@ node app.js
 ```
 then the server will run and call the index.html
 
-##Introduction
+## Introduction
 <ol>
 <li>Choose files what you want to see, and click "<i>Upload File</i>". It supports multi-files.&nbsp;</li>
 <li>You can see the list of files auto-refreshed, if not click "<i>Refresh</i>."</li>
@@ -31,10 +37,10 @@ then the server will run and call the index.html
 <li>Once you calculate and get data, you can click "<i>Plot</i>" at the navigation bar or "<i>Plot Category</i>" to change what kind of plots you want to see.</li>
  </ol>
  
-##Reference 
+## Reference 
 This Skew T/Log P diagram is referenced by Ryan Sobash's <a href="https://github.com/rsobash/d3-skewt">Repo</a>.
  
-##License 
+## License 
 The MIT License (MIT)
  
  
