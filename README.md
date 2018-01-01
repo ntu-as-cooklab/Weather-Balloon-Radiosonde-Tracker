@@ -7,6 +7,8 @@ Plot charts about vars with time or vars with height.
 
 Plot skew T/log P chart.
 
+***Currrntly only support `Windows`!***
+
 ## Demo
 ![](https://raw.githubusercontent.com/tigercosmos/webImg/master/balloon.gif)
 
@@ -21,14 +23,18 @@ cd Weather-Balloon-Radiosonde-Tracker
 npm install
 npm start
 ```
-then the server will run and call the index.html
-
 OR you can just download from [`release`](https://github.com/ntu-as-cooklab/Weather-Balloon-Radiosonde-Tracker/releases/tag/1.0.0):
 
 ```sh
 # Unzip and enter folder
 node app.js
 ```
+
+It will start a localhost server on `8000` port.
+Then open browser go http://127.0.0.1:8000.
+
+## Data
+Uploaded data format must be as same as the files in [`/uploads`](https://github.com/ntu-as-cooklab/Weather-Balloon-Radiosonde-Tracker/tree/master/uploads)
 
 ## Introduction
 <ol>
