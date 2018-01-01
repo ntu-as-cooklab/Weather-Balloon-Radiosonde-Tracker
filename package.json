@@ -1,0 +1,27 @@
+{
+  "name": "weather-balloon-radiosonde-tracker",
+  "version": "1.0.0",
+  "description": "This project visualizes the data of Vaisala RS radiosonde.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ntu-as-cooklab/Weather-Balloon-Radiosonde-Tracker.git"
+  },
+  "author": "tigercosmos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ntu-as-cooklab/Weather-Balloon-Radiosonde-Tracker/issues"
+  },
+  "homepage": "https://github.com/ntu-as-cooklab/Weather-Balloon-Radiosonde-Tracker#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "formidable": "^1.1.1",
+    "open": "0.0.5",
+    "python-shell": "^0.4.0",
+    "socket.io": "^2.0.4"
+  }
+}

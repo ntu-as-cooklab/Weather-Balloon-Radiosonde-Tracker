@@ -16,9 +16,8 @@ python 2.7, node.js 4.4+, the code tests in Windows
 ## Excute
 ```bash
 git clone https://github.com/tigercosmos/Weather-Balloon-Radiosonde-Tracker.git
-```
-```bash
 cd Weather-Balloon-Radiosonde-Tracker
+npm install
 ```
 ```bash
 node app.js
