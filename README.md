@@ -10,19 +10,25 @@ Plot skew T/log P chart.
 ## Demo
 ![](https://raw.githubusercontent.com/tigercosmos/webImg/master/balloon.gif)
 
-## Test Environment
-python 2.7, node.js 4.4+, the code tests in Windows
+## Environment
+python 2.7, node.js 4.4+, the code tests in ***Windows***
 
 ## Excute
+
 ```bash
 git clone https://github.com/tigercosmos/Weather-Balloon-Radiosonde-Tracker.git
 cd Weather-Balloon-Radiosonde-Tracker
 npm install
-```
-```bash
-node app.js
+npm start
 ```
 then the server will run and call the index.html
+
+OR you can just download from [`release`](https://github.com/ntu-as-cooklab/Weather-Balloon-Radiosonde-Tracker/releases/tag/1.0.0):
+
+```sh
+# Unzip and enter folder
+node app.js
+```
 
 ## Introduction
 <ol>
