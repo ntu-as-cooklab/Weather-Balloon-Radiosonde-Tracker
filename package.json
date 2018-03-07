@@ -4,6 +4,7 @@
   "description": "This project visualizes the data of Vaisala RS radiosonde.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
