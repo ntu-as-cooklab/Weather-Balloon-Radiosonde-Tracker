@@ -1,18 +1,11 @@
 from os import listdir, getcwd
 from os.path import isfile, join
 from math import sin, cos
-#---Setting---
-timeLimit = 0
-heightLimit = 0
-SETTING_FILE_PATH = getcwd()+'\setting\setting.txt'
-with open(SETTING_FILE_PATH, 'r') as input_stream :
-    lines = input_stream.readlines()
-    option = lines[0].split(',')
-    timeLimit = float(option[0])
-    heightLimit = float(option[1])
-input_stream.close()
-#-----------
-files = [f for f in listdir(getcwd()+'\uploads') if isfile(join(getcwd()+'\uploads', f))]
+
+from setting_utils import timeLimit, heightLimit, input_stream
+
+
+files = [f for f in listdir(join(getcwd(), 'uploads')) if isfile(join(getcwd(), 'uploads', f))]
 files = [f for f in files if f.endswith(".txt")]
 
 rgbaColor = ['[255, 0, 0,200]','[51, 204, 51,200]','[0, 153, 255,200]','[255, 255, 0,200]','[204, 0, 153,200]','[51, 51, 0,200]','[255, 0, 102,200]','[200, 200, 200,200]','[0, 51, 102,200]','[255, 153, 255,200]'
@@ -29,7 +22,7 @@ czml = (
 colorIndex = 0;
 
 for file in files :
-    FILE_PATH = getcwd()+'\uploads'+'\%s' % file
+    FILE_PATH = join(getcwd(), 'uploads', str(file))
 
     data = []
     with open(FILE_PATH, 'r') as input_stream :
@@ -98,6 +91,6 @@ czml += (
 ']\n'
 )
 
-fout = open(getcwd()+'\\balloon\data'+'\\3dpath.txt', 'w')
+fout = open(join(getcwd(), 'balloon', 'data', '3dpath.txt'), 'w')
 fout.write(czml)
 fout.close()

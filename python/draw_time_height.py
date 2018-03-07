@@ -1,18 +1,11 @@
 from os import listdir, getcwd
 from os.path import isfile, join
 from math import sin, cos
-#---Setting---
-timeLimit = 0
-heightLimit = 0
-SETTING_FILE_PATH = getcwd()+'\setting\setting.txt'
-with open(SETTING_FILE_PATH, 'r') as input_stream :
-    lines = input_stream.readlines()
-    option = lines[0].split(',')
-    timeLimit = float(option[0])
-    heightLimit = float(option[1])
-input_stream.close()
-#-----------
-files = [f for f in listdir(getcwd()+'\uploads') if isfile(join(getcwd()+'\uploads', f))]
+
+from setting_utils import timeLimit, heightLimit, input_stream
+
+
+files = [f for f in listdir(join(getcwd(), 'uploads')) if isfile(join(getcwd(), 'uploads', f))]
 files = [f for f in files if f.endswith(".txt")]
 
 czml =(
@@ -26,7 +19,7 @@ for file in files:
 
     czml += ('[');
 
-    FILE_PATH = getcwd()+'\uploads'+'\%s' % file
+    FILE_PATH = join(getcwd(), 'uploads', str(file))
 
     data = []
     with open(FILE_PATH, 'r') as input_stream :
@@ -78,6 +71,6 @@ czml += (
     '}\n'
 )
 
-fout = open(getcwd()+'\\balloon\data'+'\\time_height_data.js', 'w')
+fout = open(join(getcwd(), 'balloon', 'data', 'time_height_data.js'), 'w')
 fout.write(czml)
 fout.close()

@@ -1,18 +1,11 @@
 from os import listdir, getcwd
 from os.path import isfile, join
 from math import sin, cos
-#---Setting---
-timeLimit = 0
-heightLimit = 0
-SETTING_FILE_PATH = getcwd()+'\setting\setting.txt'
-with open(SETTING_FILE_PATH, 'r') as input_stream :
-    lines = input_stream.readlines()
-    option = lines[0].split(',')
-    timeLimit = float(option[0])
-    heightLimit = float(option[1])
-input_stream.close()
-#-----------
-files = [f for f in listdir(getcwd()+'\uploads') if isfile(join(getcwd()+'\uploads', f))]
+
+from setting_utils import timeLimit, heightLimit, input_stream
+
+
+files = [f for f in listdir(join(getcwd(), 'uploads')) if isfile(join(getcwd(), 'uploads', f))]
 files = [f for f in files if f.endswith(".txt")]
 
 kmlColor = ['ff0000ff','ff33cc33','ffff9900','ff00ffff','ff9900cc','ff003333','ff6600ff','ffc8c8c8','ff663300','ffff99ff']
@@ -28,7 +21,7 @@ czml = (
 colorIndex = 0;
 
 for file in files :
-    FILE_PATH = getcwd()+'\uploads'+'\%s' % file
+    FILE_PATH = join(getcwd(), 'uploads', str(file))
 
     data = []
     with open(FILE_PATH, 'r') as input_stream :
@@ -97,6 +90,6 @@ czml += (
 '</kml>\n'
 )
 
-fout = open(getcwd()+'\\balloon\data'+'\\2dpath.kml', 'w')
+fout = open(join(getcwd(), 'balloon', 'data', '2dpath.kml'), 'w')
 fout.write(czml)
 fout.close()

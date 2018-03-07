@@ -1,18 +1,11 @@
 from os import listdir, getcwd
 from os.path import isfile, join
 from math import sin, cos, atan, hypot
-#---Setting---
-timeLimit = 0
-heightLimit = 0
-SETTING_FILE_PATH = getcwd()+'\setting\setting.txt'
-with open(SETTING_FILE_PATH, 'r') as input_stream :
-    lines = input_stream.readlines()
-    option = lines[0].split(',')
-    timeLimit = float(option[0])
-    heightLimit = float(option[1])
-input_stream.close()
-#-----------
-files = [f for f in listdir(getcwd()+'\uploads') if isfile(join(getcwd()+'\uploads', f))]
+
+from setting_utils import timeLimit, heightLimit, input_stream
+
+
+files = [f for f in listdir(join(getcwd(), 'uploads')) if isfile(join(getcwd(), 'uploads', f))]
 files = [f for f in files if f.endswith(".txt")]
 
 rgbColor = ['255, 0, 0','51, 204, 51','0, 153, 255','255, 255, 0','204, 0, 153','51, 51, 0','255, 0, 102','200, 200, 200','0, 51, 102','255, 153, 255']
@@ -23,7 +16,7 @@ colorIndex = 0;
 fileIndex = 0;
 
 for file in files :
-    FILE_PATH = getcwd()+'\uploads'+'\%s' % file
+    FILE_PATH = join(getcwd(), 'uploads', str(file))
 
     data = []
     with open(FILE_PATH, 'r') as input_stream :
@@ -194,6 +187,6 @@ czml += (
 'Plotly.plot("azimuth", data, layout)\n'
 )
 
-fout = open(getcwd()+'\\balloon\data'+'\\azimuth.js', 'w')
+fout = open(join(getcwd(), 'balloon', 'data', 'azimuth.js'), 'w')
 fout.write(czml)
 fout.close()
