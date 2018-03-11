@@ -7,13 +7,13 @@ Plot charts about vars with time or vars with height.
 
 Plot skew T/log P chart.
 
-***Currrntly only support `Windows`!***
+***Currrntly only support `Windows` and `Linux`!***
 
 ## Demo
 ![](https://raw.githubusercontent.com/tigercosmos/webImg/master/balloon.gif)
 
 ## Environment
-python 2.7, node.js 4.4+, the code tests in ***Windows***
+python 2.7, node.js 4.4+, the code tests in ***Windows*** and ***Linux***
 
 ## Excute
 
